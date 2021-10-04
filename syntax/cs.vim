@@ -1,3 +1,8 @@
+" Vim syntax file
+" Language: C#
+" Author: Jeffrey Crochet <jlcrochet@pm.me>
+" URL: github.com/jlcrochet/vim-cs
+
 if exists("b:current_syntax")
   finish
 endif
