@@ -252,6 +252,7 @@ syn keyword csUnaryOperatorKeyword new contained containedin=csBlock nextgroup=c
 syn keyword csUnaryOperatorKeyword stackalloc contained nextgroup=csRHSIdentifier,csRHSType,csInitializer,csRHSIndex skipwhite skipnl
 syn keyword csUnaryOperatorKeyword ref out in contained nextgroup=@csRHS skipwhite skipnl
 syn keyword csUnaryOperatorKeyword await contained containedin=csBlock nextgroup=csStatement,@csRHS skipwhite skipnl
+syn keyword csUnaryOperatorKeyword async contained nextgroup=csRHSTypeIdentifier,csRHSType,csRHSGroup skipwhite skipnl
 syn keyword csUnaryOperatorKeyword throw contained nextgroup=@csRHS skipwhite skipnl
 syn keyword csUnaryOperatorKeyword static contained nextgroup=csRHSType,csRHSIdentifier skipwhite skipnl
 syn keyword csUnaryOperatorKeyword delegate contained nextgroup=csFunctionPointerModifier skipwhite skipnl
