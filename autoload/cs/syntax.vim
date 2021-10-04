@@ -38,7 +38,7 @@ let s:hexadecimal_re = s:hexadecimal . s:choice(
       \ s:exponent_suffix . s:float_suffix.'\='
       \ ) . '\='
 
-const g:cs#syntax#number = printf(s:template .. repeat(" | " .. s:template, 3), s:float_re, s:decimal_re, s:binary_re, s:hexadecimal_re)
+const g:cs#syntax#numbers = printf(s:template .. repeat(" | " .. s:template, 3), s:float_re, s:decimal_re, s:binary_re, s:hexadecimal_re)
 
 delfunction s:choice
 delfunction s:optional

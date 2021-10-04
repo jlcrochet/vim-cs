@@ -271,7 +271,7 @@ syn region csRHSIndex matchgroup=csDelimiter start=/\%#=1?\=\[/ end=/\%#=1\]/ co
 
 syn region csInitializer matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contained contains=@csRHS,csInitializer nextgroup=@csOperators skipwhite skipnl
 
-execute g:cs#syntax#number
+execute g:cs#syntax#numbers
 
 syn keyword csBoolean true false contained nextgroup=@csOperators skipwhite skipnl
 syn keyword csNull null contained nextgroup=@csOperators skipwhite skipnl
