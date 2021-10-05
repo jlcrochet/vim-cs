@@ -32,10 +32,15 @@ function GetCSIndent() abort
     return 0
   endif
 
-  let prev_line = getline(prev_lnum)
+  " If the current line begins with a closing bracket, use
+  " C indentation.
+  if getline(v:lnum) =~# '^\s*[)\]}]'
+    return cindent(v:lnum)
+  endif
 
   " If the previous line was a preprocessor directive or was inside of
   " a multiline region, find the nearest previous line that wasn't.
+  let prev_line = getline(prev_lnum)
   let first_idx = match(prev_line, '\S')
   let first_char = prev_line[first_idx]
   let synid = synID(prev_lnum, 1, 1)
@@ -54,28 +59,19 @@ function GetCSIndent() abort
   endwhile
 
   " If the previous line was an attribute line or a comment, align with
-  " the previous line unless the current line begins with a closing
-  " bracket.
+  " the previous line.
   if first_char ==# "["
     call cursor(prev_lnum, first_idx + 1)
 
     if searchpair('\[', "", '\]', "z", s:skip_delimiter, prev_lnum)
-      if getline(v:lnum) =~# '^\s*[)\]}]'
-        return first_idx - shiftwidth()
-      else
-        return first_idx
-      endif
+      return first_idx
     endif
   elseif first_char ==# "]"
     call cursor(prev_lnum, first_idx + 1)
 
     let [_, col] = searchpairpos('\[', "", '\]', "bW", s:skip_delimiter)
 
-    if getline(v:lnum) =~# '^\s*[)\]}]'
-      return col - 1 - shiftwidth()
-    else
-      return col - 1
-    endif
+    return col - 1
   elseif first_char ==# "/"
     let second_char = prev_line[first_idx + 1]
 
