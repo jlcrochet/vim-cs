@@ -217,8 +217,8 @@ syn region csGroup matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contains=@
 syn region csAttribute matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contains=@csRHS,csAttributeSpecifier
 syn keyword csAttributeSpecifier field event method param property return type contained nextgroup=csKeywordArgumentColon skipwhite skipnl
 
-syn match csAssignmentOperator /\%#=1=/ contained nextgroup=@csRHS,csInitializer skipwhite skipnl
-syn match csCompoundAssignmentOperator /\%#=1\%([+\-*/%^]\|&&\=\|||\=\|??\)=/ contained nextgroup=@csRHS,csInitializer skipwhite skipnl
+syn match csAssignmentOperator /\%#=1=/ contained nextgroup=@csRHS,csRHSTypeIdentifier,csInitializer skipwhite skipnl
+syn match csCompoundAssignmentOperator /\%#=1\%([+\-*/%^]\|&&\=\|||\=\|??\)=/ contained nextgroup=@csRHS,csRHSTypeIdentifier,csInitializer skipwhite skipnl
 
 syn match csLambdaOperator /\%#=1=>/ contained nextgroup=@csRHS,csBlock skipwhite skipnl
 
@@ -261,7 +261,7 @@ syn keyword csUnaryOperatorKeyword var contained nextgroup=csRHSDeclarator,csRHS
 syn match csRHSDeclarator /\%#=1\h\w*/ contained contains=csKeywordError nextgroup=@csOperators skipwhite skipnl
 syn region csRHSTupleDeclarator matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csRHSDeclarator nextgroup=@csOperators skipwhite skipnl
 
-syn keyword csRHSType contained nextgroup=csMemberAccessOperator,csRHSInvocation,csRHSIndex,csRHSDeclarator,csTypeModifier,csOperatorKeyword skipwhite skipnl
+syn keyword csRHSType contained nextgroup=csMemberAccessOperator,csRHSGroup,csRHSIndex,csRHSDeclarator,csTypeModifier,csOperatorKeyword skipwhite skipnl
       \ sbyte short int long byte ushort uint ulong float double decimal nint nuint
       \ char bool object string void dynamic
 
@@ -317,8 +317,8 @@ syn match csOperator /\%#=1?\./ contained nextgroup=csRHSIdentifier,csRHSConstan
 syn match csOperator /\%#=1::/ contained nextgroup=csRHSIdentifier skipwhite skipnl
 
 syn region csRHSGroup matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS,csRHSTypeIdentifier nextgroup=@csRHS,@csOperators skipwhite skipnl
-syn match csRHSTypeIdentifier /\%#=1\h\w*\%(<.\{-}>\)\=\%(?[.\[]\@!\)\=\**/ contained contains=csType,csKeywordError,csGeneric,csTypeModifier nextgroup=csDeclarator,@csOperators,csRHSInvocation,csRHSIndex skipwhite skipnl
-syn match csRHSTypeIdentifier /\%#=1@\h\w*\%(<.\{-}>\)\=\%(?[.\[]\@!\)\=\**/ contained contains=csGeneric,csTypeModifier nextgroup=csDeclarator,@csOperators,csRHSInvocation,csRHSIndex skipwhite skipnl
+syn match csRHSTypeIdentifier /\%#=1\h\w*\%(<.\{-}>\)\=\%(?[.\[]\@!\)\=\**/ contained contains=csType,csKeywordError,csGeneric,csTypeModifier nextgroup=csDeclarator,@csOperators,csRHSGroup,csRHSIndex skipwhite skipnl
+syn match csRHSTypeIdentifier /\%#=1@\h\w*\%(<.\{-}>\)\=\%(?[.\[]\@!\)\=\**/ contained contains=csGeneric,csTypeModifier nextgroup=csDeclarator,@csOperators,csRHSGroup,csRHSIndex skipwhite skipnl
 
 syn keyword csOperatorKeyword as contained nextgroup=csRHSTypeIdentifier skipwhite skipnl
 syn keyword csOperatorKeyword in when and or contained nextgroup=@csRHS skipwhite skipnl

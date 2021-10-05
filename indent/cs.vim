@@ -53,8 +53,9 @@ function GetCSIndent() abort
     let synid = synID(prev_lnum, 1, 1)
   endwhile
 
-  " If the previous line was an attribute line, align with the previous
-  " line unless the current line begins with a closing bracket.
+  " If the previous line was an attribute line or a comment, align with
+  " the previous line unless the current line begins with a closing
+  " bracket.
   if first_char ==# "["
     call cursor(prev_lnum, first_idx + 1)
 
@@ -74,6 +75,12 @@ function GetCSIndent() abort
       return col - 1 - shiftwidth()
     else
       return col - 1
+    endif
+  elseif first_char ==# "/"
+    let second_char = prev_line[first_idx + 1]
+
+    if second_char ==# "/" || second_char ==# "*"
+      return first_idx
     endif
   endif
 
