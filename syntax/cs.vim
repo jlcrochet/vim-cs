@@ -148,8 +148,8 @@ syn keyword csStatement fixed contained containedin=csBlock nextgroup=csGuardedS
 syn region csGuardedStatement matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=TOP
 
 syn keyword csModifier public static nextgroup=csConstructor skipwhite skipnl
-syn match csConstructor /\%#=1\h\w*\ze\_s*(/ contained contains=csKeywordError nextgroup=csConstructorParameters skipwhite skipnl
-syn match csConstructor /\%#=1@\h\w*\ze\_s*(/ contained nextgroup=csConstructorParameters skipwhite skipnl
+syn match csConstructor /\%#=1\h\w*(\@=/ contained contains=csKeywordError nextgroup=csConstructorParameters skipwhite skipnl
+syn match csConstructor /\%#=1@\h\w*(\@=/ contained nextgroup=csConstructorParameters skipwhite skipnl
 syn region csConstructorParameters matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csTypeIdentifier,csModifier,csThis,csAttribute nextgroup=csLambdaOperator,csConstructorInheritanceOperator skipwhite skipnl
 syn match csConstructorInheritanceOperator /\%#=1:/ contained nextgroup=csMethodConstant skipwhite skipnl
 syn keyword csMethodConstant this base contained nextgroup=csMethodConstantParameters skipwhite skipnl
