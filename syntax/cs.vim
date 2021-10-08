@@ -181,8 +181,8 @@ syn keyword csConstant this base nextgroup=csAssignmentOperator,csCompoundAssign
 syn keyword csIndexerThis this contained nextgroup=csIndexerParameters skipwhite skipnl
 syn region csIndexerParameters matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=csTypeIdentifier,csModifier nextgroup=csPropertyBlock,csLambdaOperator skipwhite skipnl
 
-syn match csDeclarator /\%#=1\h\w*\%(<.\{-}>\)\=/ contained contains=csKeywordError,csGenericParameters nextgroup=csAssignmentOperator,csLambdaOperator,csParameters,csPropertyBlock,csDeclaratorMemberAccessOperator skipwhite skipnl
-syn match csDeclarator /\%#=1@\h\w*\%(<.\{-}>\)\=/ contained contains=csGenericParameters nextgroup=csAssignmentOperator,csLambdaOperator,csParameters,csPropertyBlock,csDeclaratorMemberAccessOperator skipwhite skipnl
+syn match csDeclarator /\%#=1\h\w*\%(<.\{-}>\)\=/ contained contains=csKeywordError,csGenericParameters nextgroup=csAssignmentOperator,csLambdaOperator,csParameters,csPropertyBlock,csDeclaratorMemberAccessOperator,csOperatorKeyword skipwhite skipnl
+syn match csDeclarator /\%#=1@\h\w*\%(<.\{-}>\)\=/ contained contains=csGenericParameters nextgroup=csAssignmentOperator,csLambdaOperator,csParameters,csPropertyBlock,csDeclaratorMemberAccessOperator,csOperatorKeyword skipwhite skipnl
 syn match csNotDeclarator /\%#=1\<\h\w*\%(<.\{-}>\)\=\ze\s*\./ contained containedin=csDeclarator contains=csGeneric
 syn match csNotDeclarator /\%#=1@\h\w*\%(<.\{-}>\)\=\ze\s*\./ contained containedin=csDeclarator contains=csGeneric
 syn match csDeclaratorMemberAccessOperator /\%#=1\./ contained nextgroup=csDeclarator,csIdentifier,csIndexerThis skipwhite skipnl
