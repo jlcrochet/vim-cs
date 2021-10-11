@@ -218,7 +218,7 @@ syn region csAttribute matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ cont
 syn keyword csAttributeSpecifier field event method param property return type contained nextgroup=csKeywordArgumentColon skipwhite skipnl
 
 syn match csAssignmentOperator /\%#=1=/ contained nextgroup=@csRHS,csRHSTypeIdentifier,csInitializer skipwhite skipnl
-syn match csCompoundAssignmentOperator /\%#=1\%([+\-*/%^]\|&&\=\|||\=\|??\)=/ contained nextgroup=@csRHS,csRHSTypeIdentifier,csInitializer skipwhite skipnl
+syn match csCompoundAssignmentOperator /\%#=1\%([+\-*/%^]\|&&\=\|||\=\|??\|<<\|>>\)=/ contained nextgroup=@csRHS,csRHSTypeIdentifier,csInitializer skipwhite skipnl
 
 syn match csLambdaOperator /\%#=1=>/ contained nextgroup=@csRHS,csBlock skipwhite skipnl
 
