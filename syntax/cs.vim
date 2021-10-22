@@ -242,7 +242,7 @@ syn match csUnaryOperator /\%#=1[!~*&^]/ contained nextgroup=@csRHS skipwhite sk
 syn keyword csUnaryOperatorKeyword new nextgroup=csRHSIdentifier,csRHSType,csInitializer,csRHSInvocation,csRHSIndex skipwhite skipnl
 syn keyword csUnaryOperatorKeyword stackalloc nextgroup=csRHSIdentifier,csRHSType,csInitializer,csRHSIndex skipwhite skipnl
 syn keyword csUnaryOperatorKeyword ref out in contained nextgroup=@csRHS skipwhite skipnl
-syn keyword csUnaryOperatorKeyword await containedin=csBlock nextgroup=csStatement,@csRHS skipwhite skipnl
+syn keyword csUnaryOperatorKeyword await nextgroup=csStatement,@csRHS skipwhite skipnl
 syn keyword csUnaryOperatorKeyword async contained nextgroup=csRHSTypeIdentifier,csRHSType,csRHSGroup skipwhite skipnl
 syn keyword csUnaryOperatorKeyword throw nextgroup=@csRHS skipwhite skipnl
 syn keyword csUnaryOperatorKeyword static contained nextgroup=csRHSType,csRHSIdentifier skipwhite skipnl
