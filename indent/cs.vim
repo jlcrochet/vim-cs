@@ -21,7 +21,7 @@ function GetCSIndent() abort
   " Do nothing if the current line is inside of a multiline region.
   let synid = synID(v:lnum, 1, 1)
 
-  if synid == g:cs#highlighting#comment || synid == g:cs#highlighting#string
+  if synid == g:cs#highlighting#comment || synid == g:cs#highlighting#comment_end || synid == g:cs#highlighting#string || synid == g:cs#highlighting#string_end
     return -1
   endif
 
@@ -45,7 +45,7 @@ function GetCSIndent() abort
   let first_char = prev_line[first_idx]
   let synid = synID(prev_lnum, 1, 1)
 
-  while first_char ==# "#" || synid == g:cs#highlighting#comment || synid == g:cs#highlighting#string
+  while first_char ==# "#" || synid == g:cs#highlighting#comment || synid == g:cs#highlighting#comment_end || synid == g:cs#highlighting#string || synid == g:cs#highlighting#string_end
     let prev_lnum = prevnonblank(prev_lnum - 1)
 
     if prev_lnum == 0

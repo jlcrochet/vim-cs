@@ -271,11 +271,11 @@ syn keyword csRHSConstant this base contained nextgroup=@csOperators,csRHSInvoca
 
 syn match csCharacter /\%#=1'\%(\\\%(x\x\{1,4}\|u\x\{4}\|U\x\{8}\|.\)\|.\)'/ contained contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipnl
 
-syn region csString matchgroup=csStringDelimiter start=/\%#=1"/   end=/\%#=1"/ contained oneline contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipnl
-syn region csString matchgroup=csStringDelimiter start=/\%#=1$"/  end=/\%#=1"/ contained oneline contains=csBraceEscape,csEscapeSequence,csEscapeSequenceError,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipnl
-syn region csString matchgroup=csStringDelimiter start=/\%#=1@"/  end=/\%#=1"/ contained skip=/\%#=1""/ contains=csQuoteEscape nextgroup=@csOperators skipwhite skipnl
-syn region csString matchgroup=csStringDelimiter start=/\%#=1$@"/ end=/\%#=1"/ contained skip=/\%#=1""/ contains=csBraceEscape,csQuoteEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipnl
-syn region csString matchgroup=csStringDelimiter start=/\%#=1@$"/ end=/\%#=1"/ contained skip=/\%#=1""/ contains=csQuoteEscape,csBraceEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipnl
+syn region csString matchgroup=csStringStart start=/\%#=1"/   matchgroup=csStringEnd end=/\%#=1"/ contained oneline contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipnl
+syn region csString matchgroup=csStringStart start=/\%#=1$"/  matchgroup=csStringEnd end=/\%#=1"/ contained oneline contains=csBraceEscape,csEscapeSequence,csEscapeSequenceError,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipnl
+syn region csString matchgroup=csStringStart start=/\%#=1@"/  matchgroup=csStringEnd end=/\%#=1"/ contained skip=/\%#=1""/ contains=csQuoteEscape nextgroup=@csOperators skipwhite skipnl
+syn region csString matchgroup=csStringStart start=/\%#=1$@"/ matchgroup=csStringEnd end=/\%#=1"/ contained skip=/\%#=1""/ contains=csBraceEscape,csQuoteEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipnl
+syn region csString matchgroup=csStringStart start=/\%#=1@$"/ matchgroup=csStringEnd end=/\%#=1"/ contained skip=/\%#=1""/ contains=csQuoteEscape,csBraceEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipnl
 
 syn match csStringInterpolationError /\%#=1[{}]/ contained
 syn region csStringInterpolation matchgroup=csStringInterpolationDelimiter start=/\%#=1{/ end=/\%#=1\%(:.\{-}\)\=}/ contained oneline contains=@csRHS
@@ -344,10 +344,10 @@ syn keyword csLINQKeyword let contained nextgroup=csDeclarator skipwhite skipnl
 syn keyword csLINQKeyword in where select orderby group by ascending descending join on equals contained
 
 " Miscellaneous (high priority) {{{2
-syn region csComment matchgroup=csCommentDelimiter start=/\%#=1\/\// end=/\%#=1$/ contains=csTodo containedin=ALLBUT,csString,csComment
-syn region csComment matchgroup=csCommentDelimiter start=/\%#=1\/\*/ end=/\%#=1\*\// contains=csTodo containedin=ALLBUT,csString,csComment fold
-syn region csComment matchgroup=csCommentDelimiter start=/\%#=1\/\/\// end=/\%#=1$/ contains=csTodo,@csXML containedin=ALLBUT,csString,csComment
-syn region csComment matchgroup=csCommentDelimiter start=/\%#=1\/\/\*/ end=/\%#=1\*\/\// contains=csTodo,@csXML containedin=ALLBUT,csString,csComment fold
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\// end=/\%#=1$/ contains=csTodo containedin=ALLBUT,csString,csComment
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\*/ matchgroup=csCommentEnd end=/\%#=1\*\// contains=csTodo containedin=ALLBUT,csString,csComment fold
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ contains=csTodo,@csXML containedin=ALLBUT,csString,csComment
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\*/ matchgroup=csCommentEnd end=/\%#=1\*\/\// contains=csTodo,@csXML containedin=ALLBUT,csString,csComment fold
 syn keyword csTodo TODO NOTE XXX FIXME HACK TBD contained
 
 syn match csDirective /\%#=1^\s*\zs#.*/ containedin=ALLBUT,csDirective,csString,csComment
@@ -364,7 +364,8 @@ syn region csBlock matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contains=T
 
 " Highlighting {{{1
 hi def link csComment Comment
-hi def link csCommentDelimiter csComment
+hi def link csCommentStart csComment
+hi def link csCommentEnd csCommentStart
 hi def link csTodo Todo
 hi def link csDirective PreProc
 hi def link csStatement Statement
@@ -441,7 +442,8 @@ hi def link csBoolean Boolean
 hi def link csNull Constant
 hi def link csCharacter Character
 hi def link csString String
-hi def link csStringDelimiter csString
+hi def link csStringStart csString
+hi def link csStringEnd csStringStart
 hi def link csStringInterpolationDelimiter PreProc
 hi def link csStringInterpolationError Error
 hi def link csEscapeSequence PreProc
