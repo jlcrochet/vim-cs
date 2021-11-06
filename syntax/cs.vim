@@ -202,7 +202,7 @@ syn keyword csMethodTypeConstraint where contained nextgroup=csMethodTypeVariabl
 syn match csMethodTypeVariable /\%#=1\h\w*/ contained contains=csKeywordError nextgroup=csMethodTypeInheritanceOperator skipwhite skipnl
 syn match csMethodTypeVariable /\%#=1@\h\w*/ contained nextgroup=csMethodTypeInheritanceOperator skipwhite skipnl
 
-syn region csTypeTuple matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csType,csTypeTuple,csIdentifier nextgroup=csDeclarator skipwhite skipnl
+syn region csTypeTuple matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csType,csTypeTuple,csIdentifier nextgroup=csDeclarator,csIndexerThis,csTypeModifier,csOperatorModifier skipwhite skipnl
 
 syn region csGroup matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contains=@csRHS,csRHSTypeIdentifier nextgroup=csAssignmentOperator,csMemberAccessOperator,csDeclarator,csInvocation,csIndex,csOperatorKeyword skipwhite skipnl
 
