@@ -278,7 +278,7 @@ syn region csString matchgroup=csStringStart start=/\%#=1$@"/ matchgroup=csStrin
 syn region csString matchgroup=csStringStart start=/\%#=1@$"/ matchgroup=csStringEnd end=/\%#=1"/ contained skip=/\%#=1""/ contains=csQuoteEscape,csBraceEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipnl
 
 syn match csStringInterpolationError /\%#=1[{}]/ contained
-syn region csStringInterpolation matchgroup=csStringInterpolationDelimiter start=/\%#=1{/ end=/\%#=1\%(:.\{-}\)\=}/ contained oneline contains=@csRHS
+syn region csStringInterpolation matchgroup=csStringInterpolationDelimiter start=/\%#=1{/ end=/\%#=1\%([,:].\{-}\)\=}/ contained oneline contains=@csRHS
 
 syn match csEscapeSequenceError /\%#=1\\./ contained
 syn match csEscapeSequence /\%#=1\\\%(['"\\0abfnrtv]\|x\x\{1,4}\|u\x\{4}\|U\x\{8}\)/ contained
