@@ -19,7 +19,7 @@ let s:skip_delimiter = "synID(line('.'), col('.'), 1) != g:cs#highlighting#delim
 
 function GetCSIndent() abort
   " Do nothing if the current line is inside of a multiline region.
-  let synid = synID(v:lnum, 1, 1)
+  let synid = synID(v:lnum, 1, 0)
 
   if synid == g:cs#highlighting#comment || synid == g:cs#highlighting#comment_end || synid == g:cs#highlighting#string || synid == g:cs#highlighting#string_end
     return -1
@@ -43,7 +43,7 @@ function GetCSIndent() abort
   let prev_line = getline(prev_lnum)
   let first_idx = match(prev_line, '\S')
   let first_char = prev_line[first_idx]
-  let synid = synID(prev_lnum, 1, 1)
+  let synid = synID(prev_lnum, 1, 0)
 
   while first_char ==# "#" || synid == g:cs#highlighting#comment || synid == g:cs#highlighting#comment_end || synid == g:cs#highlighting#string || synid == g:cs#highlighting#string_end
     let prev_lnum = prevnonblank(prev_lnum - 1)
@@ -55,7 +55,7 @@ function GetCSIndent() abort
     let prev_line = getline(prev_lnum)
     let first_idx = match(prev_line, '\S')
     let first_char = prev_line[first_idx]
-    let synid = synID(prev_lnum, 1, 1)
+    let synid = synID(prev_lnum, 1, 0)
   endwhile
 
   " If the previous line was an attribute line or a comment, align with
