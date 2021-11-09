@@ -98,9 +98,12 @@ syn region csCasePatterns start=/\%#=1/ end=/\%#=1[,;:\])}]\@=/ contained contai
 
 syn keyword csStatement default
 
-syn keyword csStatement for foreach nextgroup=csIterationExpressions skipwhite skipnl
-syn region csIterationExpressions matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csTop,csIterationCondition
-syn region csIterationCondition start=/\%#=1;/ end=/\%#=1;/ contained contains=@csRHS
+syn keyword csStatement for nextgroup=csForExpressions skipwhite skipnl
+syn region csForExpressions matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csTop,csForExpression
+syn region csForExpression start=/\%#=1;/ end=/\%#=1[;)]\@=/ contained contains=@csRHS
+
+syn keyword csStatement foreach nextgroup=csForeachExpression skipwhite skipnl
+syn region csForeachExpression matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=TOP
 
 syn keyword csStatement break continue yield
 
