@@ -350,7 +350,6 @@ syn keyword csLINQKeyword in where select orderby group by ascending descending 
 syn region csComment matchgroup=csCommentStart start=/\%#=1\/\// end=/\%#=1$/ contains=csTodo containedin=ALLBUT,csString,csComment
 syn region csComment matchgroup=csCommentStart start=/\%#=1\/\*/ matchgroup=csCommentEnd end=/\%#=1\*\// contains=csTodo containedin=ALLBUT,csString,csComment fold
 syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ contains=csTodo,@csXML containedin=ALLBUT,csString,csComment
-syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\*/ matchgroup=csCommentEnd end=/\%#=1\*\/\// contains=csTodo,@csXML containedin=ALLBUT,csString,csComment fold
 syn keyword csTodo TODO NOTE XXX FIXME HACK TBD contained
 
 syn match csDirective /\%#=1^\s*\zs#.*/ containedin=ALLBUT,csDirective,csString,csComment
