@@ -400,6 +400,7 @@ hi def link csFunctionPointerModifier csTypeModifier
 hi def link csOperatorModifier csModifier
 hi def link csOperatorMethod csOperator
 hi def link csBooleanOperatorMethod csBoolean
+hi def link csConversionMethodKeyword csType
 hi def link csIncrementOperator csOperator
 hi def link csDecrementOperator csOperator
 hi def link csPointerOperator csOperator
