@@ -294,9 +294,8 @@ syn region csTernaryOperator matchgroup=csOperator start=/\%#=1?/ end=/\%#=1:/ c
 
 syn match csOperator /\%#=1!/ contained nextgroup=@csOperators,csRHSInvocation,csRHSIndex skipwhite skipnl
 syn match csOperator /\%#=1!=/ contained nextgroup=@csRHS skipwhite skipnl
-syn match csOperator /\%#=1=[=]\=/ contained nextgroup=@csRHS skipwhite skipnl
 syn match csOperator /\%#=1=>/ contained nextgroup=@csRHS,csBlock skipwhite skipnl
-syn match csOperator /\%#=1[+*/%]=\=/ contained nextgroup=@csRHS skipwhite skipnl
+syn match csOperator /\%#=1[=+*/%]=\=/ contained nextgroup=@csRHS skipwhite skipnl
 syn match csOperator /\%#=1-[>=]\=/ contained nextgroup=@csRHS skipwhite skipnl
 syn match csOperator /\%#=1++/ contained nextgroup=@csOperators skipwhite skipnl
 syn match csOperator /\%#=1--/ contained nextgroup=@csOperators skipwhite skipnl
