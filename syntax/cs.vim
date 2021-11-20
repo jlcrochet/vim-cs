@@ -299,8 +299,8 @@ syn match csOperator /\%#=1=>/ contained nextgroup=@csRHS,csBlock skipwhite skip
 syn match csOperator /\%#=1-[>=]\=/ contained nextgroup=@csRHS skipwhite skipnl
 syn match csOperator /\%#=1++/ contained nextgroup=@csOperators skipwhite skipnl
 syn match csOperator /\%#=1--/ contained nextgroup=@csOperators skipwhite skipnl
-syn match csOperator /\%#=1<\%(<=\=\|=\)\=/ contained nextgroup=@csRHS skipwhite skipnl
-syn match csOperator /\%#=1>\%(>=\=\|=\)\=/ contained nextgroup=@csRHS skipwhite skipnl
+syn match csOperator /\%#=1<<\==\=/ contained nextgroup=@csRHS skipwhite skipnl
+syn match csOperator /\%#=1>>\==\=/ contained nextgroup=@csRHS skipwhite skipnl
 syn match csOperator /\%#=1&&\==\=/ contained nextgroup=@csRHS skipwhite skipnl
 syn match csOperator /\%#=1||\==\=/ contained nextgroup=@csRHS skipwhite skipnl
 syn match csOperator /\%#=1??=\=/ contained nextgroup=@csRHS skipwhite skipnl
