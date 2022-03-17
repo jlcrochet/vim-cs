@@ -209,7 +209,7 @@ syn region csTypeTuple matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contai
 
 syn region csGroup matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contains=@csRHS,csRHSTypeIdentifier nextgroup=csAssignmentOperator,csMemberAccessOperator,csDeclarator,csInvocation,csIndex,csOperatorKeyword skipwhite skipempty
 
-syn region csAttributes matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contains=csAttribute
+syn region csAttributes matchgroup=csAttributeDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contains=csAttribute
 syn match csAttribute /\%#=1\h\w*/ contained nextgroup=csAttributeInvocation skipwhite skipempty
 syn region csAttributeInvocation matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS
 
@@ -339,7 +339,7 @@ syn keyword csOperatorKeyword with contained nextgroup=csInitializer skipwhite s
 
 syn keyword csFunctionKeyword typeof default checked unchecked sizeof nameof contained nextgroup=csRHSInvocation skipwhite skipempty
 
-syn region csRHSAttributes matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=csAttribute nextgroup=@csRHS,@csOperators skipwhite skipempty
+syn region csRHSAttributes matchgroup=csAttributeDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=csAttribute nextgroup=@csRHS,@csOperators skipwhite skipempty
 
 syn region csLINQExpression start=/\%#=1\<from\>/ end=/\%#=1[)\]};]\@=/ contained transparent contains=csLINQKeyword,@csRHS
 syn keyword csLINQKeyword from into contained nextgroup=csDeclarator,csLINQDeclaration skipwhite skipempty
@@ -457,6 +457,7 @@ hi def link csBraceEscape csEscapeSequence
 hi def link csFieldInitializer csDeclarator
 hi def link csKeywordError Error
 hi def link csAttribute PreProc
+hi def link csAttributeDelimiter csDelimiter
 " }}}1
 
 " vim:fdm=marker

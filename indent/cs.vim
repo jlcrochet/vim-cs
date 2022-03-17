@@ -15,13 +15,13 @@ if exists("*GetCSIndent")
   finish
 endif
 
-let s:skip_delimiter = "synID(line('.'), col('.'), 1) != g:cs#highlighting#delimiter"
+let s:skip_attribute_delimiter = "synIDattr(synID(line('.'), col('.'), 0), 'name') !=# 'csAttributeDelimiter'"
 
 function GetCSIndent() abort
   " Do nothing if the current line is inside of a multiline region.
-  let synid = synID(v:lnum, 1, 0)
+  let syngroup = synIDattr(synID(v:lnum, 1, 0), "name")
 
-  if synid == g:cs#highlighting#comment || synid == g:cs#highlighting#comment_end || synid == g:cs#highlighting#string || synid == g:cs#highlighting#string_end
+  if syngroup ==# "csComment" || syngroup ==# "csCommentEnd" || syngroup ==# "csString" || syngroup ==# "csStringEnd"
     return -1
   endif
 
@@ -43,9 +43,9 @@ function GetCSIndent() abort
   let prev_line = getline(prev_lnum)
   let first_idx = match(prev_line, '\S')
   let first_char = prev_line[first_idx]
-  let synid = synID(prev_lnum, 1, 0)
+  let syngroup = synIDattr(synID(prev_lnum, 1, 0), "name")
 
-  while first_char ==# "#" || synid == g:cs#highlighting#comment || synid == g:cs#highlighting#comment_end || synid == g:cs#highlighting#string || synid == g:cs#highlighting#string_end
+  while first_char ==# "#" || syngroup ==# "csComment" || syngroup ==# "csCommentEnd" || syngroup ==# "csString" || syngroup ==# "csStringEnd"
     let prev_lnum = prevnonblank(prev_lnum - 1)
 
     if prev_lnum == 0
@@ -55,7 +55,7 @@ function GetCSIndent() abort
     let prev_line = getline(prev_lnum)
     let first_idx = match(prev_line, '\S')
     let first_char = prev_line[first_idx]
-    let synid = synID(prev_lnum, 1, 0)
+    let syngroup = synIDattr(synID(prev_lnum, 1, 0), "name")
   endwhile
 
   " If the previous line was an attribute line or a comment, align with
@@ -63,13 +63,13 @@ function GetCSIndent() abort
   if first_char ==# "["
     call cursor(prev_lnum, first_idx + 1)
 
-    if searchpair('\[', "", '\]', "z", s:skip_delimiter, prev_lnum)
+    if searchpair('\[', "", '\]', "z", s:skip_attribute_delimiter, prev_lnum)
       return first_idx
     endif
   elseif first_char ==# "]"
     call cursor(prev_lnum, first_idx + 1)
 
-    let [_, col] = searchpairpos('\[', "", '\]', "bW", s:skip_delimiter)
+    let [_, col] = searchpairpos('\[', "", '\]', "bW", s:skip_attribute_delimiter)
 
     return col - 1
   elseif first_char ==# "/"
