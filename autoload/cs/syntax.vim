@@ -19,7 +19,7 @@ let s:integer_suffix = '\%([uU][lL]\=\|[lL][uU]\=\)'
 let s:float_suffix = '[fFmMdD]'
 let s:exponent_suffix = '[eE][+-]\='.s:decimal
 
-let s:template = 'syn match csNumber /\%%#=1%s/ contained nextgroup=@csOperators skipwhite skipempty'
+let s:template = 'syn match csNumber /\%%#=1%s\>/ contained nextgroup=@csOperators skipwhite skipempty'
 
 let s:float_re = '\.'.s:decimal . s:optional(s:exponent_suffix) . s:float_suffix.'\='
 
