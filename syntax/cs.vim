@@ -456,8 +456,8 @@ hi def link csQuoteEscape csEscapeSequence
 hi def link csBraceEscape csEscapeSequence
 hi def link csFieldInitializer csDeclarator
 hi def link csKeywordError Error
-hi def link csAttribute PreProc
-hi def link csAttributeDelimiter csDelimiter
+hi def link csAttribute csIdentifier
+hi def link csAttributeDelimiter PreProc
 " }}}1
 
 " vim:fdm=marker
