@@ -1,6 +1,6 @@
 " Vim autoload file
 " Language: C#
-" Author: Jeffrey Crochet <jlcrochet@pm.me>
+" Author: Jeffrey Crochet <jlcrochet@hey.com>
 " URL: github.com/jlcrochet/vim-cs
 
 function s:choice(...)
