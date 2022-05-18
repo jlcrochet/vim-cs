@@ -43,4 +43,3 @@ unlet
       \ s:integer_suffix s:float_suffix s:exponent_suffix
       \ s:float_re s:decimal_re s:binary_re s:hexadecimal_re
       \ s:syn_match_template
-
