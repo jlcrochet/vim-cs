@@ -7,8 +7,6 @@ if exists("b:current_syntax")
   finish
 endif
 
-syn include @csXML syntax/xml.vim
-
 let b:current_syntax = "cs"
 
 " Syntax {{{1
@@ -355,8 +353,17 @@ syn keyword csLINQKeyword in where select orderby group by ascending descending 
 " Miscellaneous (high priority) {{{2
 syn region csComment matchgroup=csCommentStart start=/\%#=1\/\// end=/\%#=1$/ contains=csTodo containedin=ALLBUT,csString,csComment
 syn region csComment matchgroup=csCommentStart start=/\%#=1\/\*/ matchgroup=csCommentEnd end=/\%#=1\*\// contains=csTodo containedin=ALLBUT,csString,csComment
-syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ keepend contains=csTodo,@csXML containedin=ALLBUT,csString,csComment
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ keepend contains=csTodo,csXMLTag,csXMLEndTag containedin=ALLBUT,csString,csComment
 syn keyword csTodo TODO NOTE XXX FIXME HACK TBD contained
+
+syn region csXMLTag matchgroup=csXMLTag start=/\%#=1<[[:alnum:]_:][[:alnum:]_:\-.]*/ end=/\%#=1>/ contained contains=csXMLAttribute
+syn match csXMLEndTag /\%#=1<\/[[:alnum:]_:][[:alnum:]_:\-.]*>/ contained
+
+syn match csXMLAttribute /\%#=1[^"'>/=[:space:]]\+/ contained nextgroup=csXMLAttributeOperator skipwhite skipempty
+syn match csXMLAttributeOperator /\%#=1=/ contained nextgroup=csXMLValue skipwhite skipempty
+
+syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/ contained contains=csXMLCharacterReference
+syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1'/ end=/\%#=1'/ contained contains=csXMLCharacterReference
 
 syn match csDirective /\%#=1^\s*\zs#.*/ containedin=ALLBUT,csDirective,csString,csComment
 
@@ -466,6 +473,12 @@ hi def link csKeywordError Error
 hi def link csAttribute csIdentifier
 hi def link csAttributeDelimiter PreProc
 hi def link csDelimiterError Error
+hi def link csXMLTag Identifier
+hi def link csXMLEndTag csXMLTag
+hi def link csXMLAttribute Keyword
+hi def link csXMLAttributeOperator Operator
+hi def link csXMLValue String
+hi def link csXMLValueDelimiter csXMLValue
 " }}}1
 
 " vim:fdm=marker
