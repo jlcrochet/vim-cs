@@ -370,6 +370,8 @@ syn match csTypeMemberAccessOperator /\%#=1::/ contained nextgroup=csTypeIdentif
 
 syn region csBlock matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contains=TOP fold
 
+syn match csDelimiterError /\%#=1[)\]}]/
+
 " Highlighting {{{1
 hi def link csComment Comment
 hi def link csCommentStart csComment
@@ -463,6 +465,7 @@ hi def link csFieldInitializer csDeclarator
 hi def link csKeywordError Error
 hi def link csAttribute csIdentifier
 hi def link csAttributeDelimiter PreProc
+hi def link csDelimiterError Error
 " }}}1
 
 " vim:fdm=marker
