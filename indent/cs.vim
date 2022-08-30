@@ -9,7 +9,9 @@ endif
 
 let b:did_indent = 1
 
-setlocal indentexpr=GetCSIndent()
+setlocal
+      \ indentexpr=GetCSIndent()
+      \ cinoptions+=j1
 
 if exists("*GetCSIndent")
   finish
