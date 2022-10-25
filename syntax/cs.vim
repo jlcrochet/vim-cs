@@ -473,7 +473,7 @@ hi def link csKeywordError Error
 hi def link csAttribute csIdentifier
 hi def link csAttributeDelimiter PreProc
 hi def link csDelimiterError Error
-hi def link csXMLTag Identifier
+hi def link csXMLTag PreProc
 hi def link csXMLEndTag csXMLTag
 hi def link csXMLAttribute Keyword
 hi def link csXMLAttributeOperator Operator
