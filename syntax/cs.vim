@@ -87,13 +87,11 @@ syn match csNamespaceNameSeparator /\%#=1\./ contained nextgroup=csNamespaceName
 syn region csNamespaceBlock matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contained contains=TOP fold
 
 syn keyword csStatement if switch while nextgroup=csCondition skipwhite skipempty
-syn region csCondition matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS
+syn region csCondition matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS nextgroup=csBlock skipwhite skipempty
 
-syn keyword csStatement else do
+syn keyword csStatement else do nextgroup=csBlock skipwhite skipempty
 
 syn keyword csStatement case nextgroup=@csPatterns skipwhite skipempty
-" syn keyword csStatement case nextgroup=csCasePatterns
-" syn region csCasePatterns start=/\%#=1/ end=/\%#=1:\@=/ contained contains=@csPatterns
 
 syn keyword csStatement default
 
@@ -110,11 +108,11 @@ syn keyword csStatement goto
 
 syn keyword csStatement return throw nextgroup=@csRHS skipwhite skipempty
 
-syn keyword csStatement try finally
+syn keyword csStatement try finally nextgroup=csBlock skipwhite skipempty
 syn keyword csStatement catch nextgroup=csCatchCondition skipwhite skipempty
-syn region csCatchCondition matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csTypeIdentifier nextgroup=csOperatorKeyword skipwhite skipempty
+syn region csCatchCondition matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csTypeIdentifier nextgroup=csOperatorKeyword,csBlock skipwhite skipempty
 
-syn keyword csStatement checked unchecked
+syn keyword csStatement checked unchecked nextgroup=csBlock skipwhite skipempty
 
 syn keyword csStatement lock nextgroup=csCondition skipwhite skipempty
 
