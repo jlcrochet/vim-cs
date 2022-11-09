@@ -17,13 +17,13 @@ if exists("*GetCSIndent")
   finish
 endif
 
-let s:skip_attribute_delimiter = "synIDattr(synID(line('.'), col('.'), 0), 'name') !=# 'csAttributeDelimiter'"
+let s:skip_attribute_delimiter = "synID(line('.'), col('.'), 0)->synIDattr('name') !=# 'csAttributeDelimiter'"
 
 function GetCSIndent() abort
   " Do nothing if the current line is inside of a multiline region.
-  let syngroup = synIDattr(synID(v:lnum, 1, 0), "name")
+  let syngroup = synID(v:lnum, 1, 0)->synIDattr("name")
 
-  if syngroup ==# "csComment" || syngroup ==# "csCommentEnd" || syngroup ==# "csString" || syngroup ==# "csStringEnd"
+  if syngroup =~# '^cs\%(Comment\|String\)\%(End\)\=$'
     return -1
   endif
 
@@ -45,9 +45,9 @@ function GetCSIndent() abort
   let prev_line = getline(prev_lnum)
   let first_idx = match(prev_line, '\S')
   let first_char = prev_line[first_idx]
-  let syngroup = synIDattr(synID(prev_lnum, 1, 0), "name")
+  let syngroup = synID(prev_lnum, 1, 0)->synIDattr("name")
 
-  while first_char ==# "#" || syngroup ==# "csComment" || syngroup ==# "csCommentEnd" || syngroup ==# "csString" || syngroup ==# "csStringEnd"
+  while first_char ==# "#" || syngroup =~# '^cs\%(Comment\|String\)\%(End\)\=$'
     let prev_lnum = prevnonblank(prev_lnum - 1)
 
     if prev_lnum == 0
@@ -57,7 +57,7 @@ function GetCSIndent() abort
     let prev_line = getline(prev_lnum)
     let first_idx = match(prev_line, '\S')
     let first_char = prev_line[first_idx]
-    let syngroup = synIDattr(synID(prev_lnum, 1, 0), "name")
+    let syngroup = synID(prev_lnum, 1, 0)->synIDattr("name")
   endwhile
 
   " If the previous line was an attribute line or a comment, align with

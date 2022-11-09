@@ -91,8 +91,9 @@ syn region csCondition matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contai
 
 syn keyword csStatement else do
 
-syn keyword csCaseStatement case nextgroup=csCasePatterns
-syn region csCasePatterns start=/\%#=1/ end=/\%#=1[;:]\@=/ contained contains=@csRHS,csOperator,csPatternBlock,csPatternKeyword,csRHSTypeIdentifier
+syn keyword csStatement case nextgroup=@csPatterns skipwhite skipempty
+" syn keyword csStatement case nextgroup=csCasePatterns
+" syn region csCasePatterns start=/\%#=1/ end=/\%#=1:\@=/ contained contains=@csPatterns
 
 syn keyword csStatement default
 
@@ -105,7 +106,7 @@ syn region csForeachExpression matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)
 
 syn keyword csStatement break continue yield
 
-syn keyword csStatement goto nextgroup=csRHSIdentifier,csCaseStatement skipwhite skipempty
+syn keyword csStatement goto
 
 syn keyword csStatement return throw nextgroup=@csRHS skipwhite skipempty
 
@@ -126,7 +127,7 @@ syn keyword csModifier
       \ new
       \ out override
       \ params partial
-      \ ref readonly
+      \ ref readonly required
       \ sealed
       \ unsafe
       \ virtual volatile
@@ -166,8 +167,8 @@ syn region csTupleDeclarator matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ 
 
 syn match csIdentifier /\%#=1@\=\h\w*\%(<.\{-}>\)\=\%(?\.\@!\)\=\**\%(\[.\{-}\]\)*/ contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,csAssignmentOperator,csCompoundAssignmentOperator,csMemberAccessOperator,csNullForgivingOperator,csInvocation,csIndex,csOperatorModifier,csPropertyBlock skipwhite skipempty
 syn region csGeneric matchgroup=csDelimiter start=/\%#=1</ end=/\%#=1>/ contained contains=csType,csTypeIdentifier,csModifier nextgroup=csDeclarator,csIndexerThis,csOperatorModifier,csPropertyBlock skipwhite skipempty
-syn region csInvocation matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS nextgroup=csInvocation,csIndex,csOperator skipwhite skipempty
-syn region csIndex matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=@csRHS nextgroup=csInvocation,csIndex,csOperator skipwhite skipempty
+syn region csInvocation matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS nextgroup=csInvocation,csIndex,@csOperators skipwhite skipempty
+syn region csIndex matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=@csRHS nextgroup=csInvocation,csIndex,@csOperators skipwhite skipempty
 
 syn keyword csConstant this base nextgroup=csAssignmentOperator,csCompoundAssignmentOperator,csMemberAccessOperator,csInvocation,csIndex skipwhite skipempty
 
@@ -235,7 +236,7 @@ syn cluster csRHS contains=
       \ csUnaryOperator,csUnaryOperatorKeyword,csRHSIdentifier,csRHSType,
       \ csRHSGroup,csFunctionKeyword,csRHSAttributes,csLINQExpression
 
-syn cluster csOperators contains=csOperator,csOperatorKeyword,csTernaryOperator
+syn cluster csOperators contains=csOperator,csOperatorKeyword,csComment
 
 syn match csUnaryOperator /\%#=1++\=/ contained nextgroup=@csRHS skipwhite skipempty
 syn match csUnaryOperator /\%#=1--\=/ contained nextgroup=@csRHS skipwhite skipempty
@@ -250,6 +251,7 @@ syn keyword csUnaryOperatorKeyword async contained nextgroup=csRHSTypeIdentifier
 syn keyword csUnaryOperatorKeyword throw nextgroup=@csRHS skipwhite skipempty
 syn keyword csUnaryOperatorKeyword static contained nextgroup=csRHSType,csRHSIdentifier skipwhite skipempty
 syn keyword csUnaryOperatorKeyword delegate contained nextgroup=csFunctionPointerModifier skipwhite skipempty
+syn keyword csUnaryOperatorKeyword not contained nextgroup=@csPatterns skipwhite skipempty
 
 syn keyword csUnaryOperatorKeyword var contained nextgroup=csRHSDeclarator,csRHSTupleDeclarator skipwhite skipempty
 syn match csRHSDeclarator /\%#=1\h\w*/ contained contains=csKeywordError nextgroup=@csOperators skipwhite skipempty
@@ -278,14 +280,16 @@ syn keyword csRHSConstant this base contained nextgroup=@csOperators,csRHSInvoca
 
 syn match csCharacter /\%#=1'\%(\\\%(x\x\{1,4}\|u\x\{4}\|U\x\{8}\|.\)\|.\)'/ contained contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipempty
 
-syn region csString matchgroup=csStringStart start=/\%#=1"/    matchgroup=csStringEnd end=/\%#=1"/ contained oneline contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipempty
-syn region csString matchgroup=csStringStart start=/\%#=1\$"/  matchgroup=csStringEnd end=/\%#=1"/ contained oneline contains=csBraceEscape,csEscapeSequence,csEscapeSequenceError,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
-syn region csString matchgroup=csStringStart start=/\%#=1@"/   matchgroup=csStringEnd end=/\%#=1"/ contained skip=/\%#=1""/ contains=csQuoteEscape nextgroup=@csOperators skipwhite skipempty
-syn region csString matchgroup=csStringStart start=/\%#=1\$@"/ matchgroup=csStringEnd end=/\%#=1"/ contained skip=/\%#=1""/ contains=csBraceEscape,csQuoteEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
-syn region csString matchgroup=csStringStart start=/\%#=1@\$"/ matchgroup=csStringEnd end=/\%#=1"/ contained skip=/\%#=1""/ contains=csQuoteEscape,csBraceEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
+syn region csString matchgroup=csStringStart start=/\%#=1"/    matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained oneline contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipempty
+syn region csString matchgroup=csStringStart start=/\%#=1\$"/  matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained oneline contains=csBraceEscape,csEscapeSequence,csEscapeSequenceError,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
+syn region csString matchgroup=csStringStart start=/\%#=1@"/   matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained skip=/\%#=1""/ contains=csQuoteEscape nextgroup=@csOperators skipwhite skipempty
+syn region csString matchgroup=csStringStart start=/\%#=1\$@"/ matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained skip=/\%#=1""/ contains=csQuoteEscape,csBraceEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
+syn region csString matchgroup=csStringStart start=/\%#=1@\$"/ matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained skip=/\%#=1""/ contains=csQuoteEscape,csBraceEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
+syn region csString matchgroup=csStringStart start=/\%#=1\z("\{3,}\)/ matchgroup=csStringEnd end=/\%#=1\z1\%(u8\)\=/ contained nextgroup=@csOperators skipwhite skipempty
+syn region csString matchgroup=csStringStart start=/\%#=1\$\+\z("\{3,}\)/ matchgroup=csStringEnd end=/\%#=1\z1\%(u8\)\=/ contained contains=csBraceEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
 
 syn match csStringInterpolationError /\%#=1[{}]/ contained
-syn region csStringInterpolation matchgroup=csStringInterpolationDelimiter start=/\%#=1{/ end=/\%#=1\%([,:].\{-}\)\=}/ contained oneline contains=@csRHS
+syn region csStringInterpolation matchgroup=csStringInterpolationDelimiter start=/\%#=1{/ end=/\%#=1\%([,:].\{-}\)\=}/ contained contains=@csRHS
 
 syn match csEscapeSequenceError /\%#=1\\./ contained
 syn match csEscapeSequence /\%#=1\\\%(['"\\0abfnrtv]\|x\x\{1,4}\|u\x\{4}\|U\x\{8}\)/ contained
@@ -293,8 +297,6 @@ syn match csEscapeSequence /\%#=1\\\%(['"\\0abfnrtv]\|x\x\{1,4}\|u\x\{4}\|U\x\{8
 syn match csQuoteEscape /\%#=1""/ contained
 syn match csBraceEscape /\%#=1{{/ contained
 syn match csBraceEscape /\%#=1}}/ contained
-
-syn region csTernaryOperator matchgroup=csOperator start=/\%#=1?/ end=/\%#=1:/ contained oneline contains=@csRHS nextgroup=@csRHS skipwhite skipempty
 
 syn match csOperator /\%#=1!/ contained nextgroup=@csOperators,csRHSInvocation,csRHSIndex skipwhite skipempty
 syn match csOperator /\%#=1!=/ contained nextgroup=@csRHS skipwhite skipempty
@@ -304,15 +306,15 @@ syn match csOperator /\%#=1-[>=]\=/ contained nextgroup=@csRHS skipwhite skipemp
 syn match csOperator /\%#=1++/ contained nextgroup=@csOperators skipwhite skipempty
 syn match csOperator /\%#=1--/ contained nextgroup=@csOperators skipwhite skipempty
 syn match csOperator /\%#=1<<\==\=/ contained nextgroup=@csRHS skipwhite skipempty
-syn match csOperator /\%#=1>>\==\=/ contained nextgroup=@csRHS skipwhite skipempty
+syn match csOperator /\%#=1>>\=>\==\=/ contained nextgroup=@csRHS skipwhite skipempty
 syn match csOperator /\%#=1&&\==\=/ contained nextgroup=@csRHS skipwhite skipempty
 syn match csOperator /\%#=1||\==\=/ contained nextgroup=@csRHS skipwhite skipempty
-syn match csOperator /\%#=1??=\=/ contained nextgroup=@csRHS skipwhite skipempty
+syn match csOperator /\%#=1?\%(?=\)\=/ contained nextgroup=@csRHS skipwhite skipempty
 
 syn match csOperator /\%#=1\./ contained nextgroup=csRHSIdentifier,csRHSConstant skipwhite skipempty
 syn match csOperator /\%#=1\.\./ contained nextgroup=@csRHS skipwhite skipempty
 syn match csOperator /\%#=1?\./ contained nextgroup=csRHSIdentifier,csRHSConstant skipwhite skipempty
-syn match csOperator /\%#=1:/ contained nextgroup=@csRHS skipwhite skipempty
+syn match csOperator /\%#=1:/ contained nextgroup=@csRHS,csStatement skipwhite skipempty
 syn match csOperator /\%#=1::/ contained nextgroup=csRHSIdentifier skipwhite skipempty
 
 syn region csRHSGroup matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS,csRHSTypeIdentifier nextgroup=@csRHS,@csOperators skipwhite skipempty
@@ -320,22 +322,44 @@ syn match csRHSTypeIdentifier /\%#=1\h\w*\%(<.\{-}>\)\=\%(?[.\[]\@!\)\=\**/ cont
 syn match csRHSTypeIdentifier /\%#=1@\h\w*\%(<.\{-}>\)\=\%(?[.\[]\@!\)\=\**/ contained contains=csGeneric,csTypeModifier nextgroup=csDeclarator,@csOperators,csRHSGroup,csRHSIndex skipwhite skipempty
 
 syn keyword csOperatorKeyword as contained nextgroup=csRHSTypeIdentifier skipwhite skipempty
-syn keyword csOperatorKeyword in when and or contained nextgroup=@csRHS skipwhite skipempty
+syn keyword csOperatorKeyword in when contained nextgroup=@csRHS skipwhite skipempty
+syn keyword csOperatorKeyword and or contained nextgroup=@csPatterns skipwhite skipempty
 
-syn keyword csOperatorKeyword is contained nextgroup=csPatterns
-syn region csPatterns start=/\%#=1/ end=/\%#=1[,;:\])}]\@=/ contained contains=@csLiterals,csOperator,csTernaryOperator,csPatternIdentifier,csPatternGroup,csObjectPattern,csPatternKeyword
-syn match csPatternIdentifier /\%#=1\h\w*\%(<.\{-}>\)\=/ contained contains=csType,csGeneric,csKeywordError nextgroup=csDeclarator,csPatternKeyword,csPatternGroup,csRHSIndex skipwhite skipempty
-syn match csPatternIdentifier /\%#=1@\h\w*\%(<.\{-}>\)\=/ contained contains=csGeneric nextgroup=csDeclarator,csPatternKeyword,csPatternGroup,csRHSIndex skipwhite skipempty
-syn region csPatternGroup matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS,csOperator,csPatternGroup,csPatternBlock,csPatternKeyword nextgroup=csDeclarator,csPatternKeyword,csRHSInvocation,csRHSIndex skipwhite skipempty
-syn keyword csPatternKeyword and or not when contained
-syn region csObjectPattern matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contained contains=csPatternProperty nextgroup=csDeclarator,csPatternKeyword skipwhite skipempty
+syn keyword csOperatorKeyword is contained nextgroup=@csPatterns skipwhite skipempty
+syn keyword csOperatorKeyword switch contained nextgroup=csPatternBlock skipwhite skipempty
+syn region csPatternBlock matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contained contains=@csPatterns nextgroup=@csOperators skipwhite skipempty fold
+
+syn cluster csPatterns contains=csPatternType,csPatternTypeIdentifier,csUnaryOperatorKeyword,@csLiterals,csOperator,csPatternGroup,csPatternProperties,csPatternList
+
+syn keyword csPatternType contained nextgroup=csPatternDeclarator,csPatternTypeMemberAccessOperator,csPatternGroup,csPatternProperties,csOperatorKeyword skipwhite skipempty
+      \ sbyte short int long byte ushort uint ulong float double decimal nint nuint
+      \ char bool object string void dynamic
+
+syn match csPatternTypeIdentifier /\%#=1\h\w*\%(<.\{-}>\)\=/ contained contains=csGeneric,csKeywordError nextgroup=csPatternDeclarator,csLambdaOperator,csPatternTypeMemberAccessOperator,csPatternGroup,csPatternProperties,csOperatorKeyword skipwhite skipempty
+syn match csPatternTypeIdentifier /\%#=1@\h\w*\%(<.\{-}>\)\=/ contained contains=csGeneric nextgroup=csPatternDeclarator,csLambdaOperator,csPatternTypeMemberAccessOperator,csPatternGroup,csPatternProperties,csOperatorKeyword skipwhite skipempty
+
+syn match csPatternTypeMemberAccessOperator /\%#=1\./ contained nextgroup=csPatternTypeIdentifier skipwhite skipempty
+
+syn match csPatternDeclarator /\%#=1\h\w*/ contained contains=csKeywordError nextgroup=@csOperators skipwhite skipempty
+syn match csPatternDeclarator /\%#=1@\h\w*/ contained nextgroup=@csOperators skipwhite skipempty
+
+syn region csPatternGroup matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csPatterns nextgroup=@csOperators,csPatternDeclarator,csPatternProperties skipwhite skipempty
+
+syn region csPatternProperties matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contained contains=csPatternProperty nextgroup=@csOperators,csPatternDeclarator skipwhite skipempty
 syn match csPatternProperty /\%#=1\h\w*/ contained contains=csKeywordError nextgroup=csPatternPropertyColon,csPatternPropertyMemberAccessOperator skipwhite skipempty
 syn match csPatternProperty /\%#=1@\h\w*/ contained nextgroup=csPatternPropertyColon,csPatternPropertyMemberAccessOperator skipwhite skipempty
-syn match csPatternPropertyColon /\%#=1:/ contained nextgroup=csPatterns skipwhite skipempty
+syn match csPatternPropertyColon /\%#=1:/ contained nextgroup=@csPatterns skipwhite skipempty
 syn match csPatternPropertyMemberAccessOperator /\%#=1\./ contained nextgroup=csPatternProperty skipwhite skipempty
 
-syn keyword csOperatorKeyword switch contained nextgroup=csPatternBlock skipwhite skipempty
-syn region csPatternBlock matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contained contains=@csLiterals,csUnaryOperatorKeyword,csOperator,csTernaryOperator,csPatternIdentifier,csPatternGroup,csObjectPattern,csPatternKeyword nextgroup=@csOperators skipwhite skipempty fold
+syn region csPatternList matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1]/ contained contains=@csPatterns,csPatternSlice nextgroup=@csOperators skipwhite skipempty
+syn match csPatternSlice /\%#=1\.\./ contained
+
+hi def link csPatternType csType
+hi def link csPatternTypeIdentifier csTypeIdentifier
+hi def link csPatternTypeMemberAccessOperator csMemberAccessOperator
+hi def link csPatternDeclarator csDeclarator
+hi def link csPatternPropertyMemberAccessOperator csMemberAccessOperator
+hi def link csPatternSlice csOperator
 
 syn keyword csOperatorKeyword with contained nextgroup=csInitializer skipwhite skipempty
 
@@ -351,21 +375,21 @@ syn keyword csLINQKeyword let contained nextgroup=csDeclarator skipwhite skipemp
 syn keyword csLINQKeyword in where select orderby group by ascending descending join on equals contained
 
 " Miscellaneous (high priority) {{{2
-syn region csComment matchgroup=csCommentStart start=/\%#=1\/\// end=/\%#=1$/ contains=csTodo containedin=ALLBUT,csString,csComment
-syn region csComment matchgroup=csCommentStart start=/\%#=1\/\*/ matchgroup=csCommentEnd end=/\%#=1\*\// contains=csTodo containedin=ALLBUT,csString,csComment
-syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ keepend contains=csTodo,csXMLTag,csXMLEndTag containedin=ALLBUT,csString,csComment
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\// end=/\%#=1$/ contains=csTodo containedin=@csBlocks
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\*/ matchgroup=csCommentEnd end=/\%#=1\*\// contains=csTodo containedin=@csBlocks
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ keepend contains=csTodo,csXMLTag,csXMLEndTag containedin=@csBlocks
 syn keyword csTodo TODO NOTE XXX FIXME HACK TBD contained
 
-syn region csXMLTag matchgroup=csXMLTag start=/\%#=1<[[:alnum:]_:][[:alnum:]_:\-.]*/ end=/\%#=1>/ contained contains=csXMLAttribute
+syn region csXMLTag matchgroup=csXMLTag start=/\%#=1<[[:alnum:]_:][[:alnum:]_:\-.]*/ end=/\%#=1>/ contained oneline contains=csXMLAttribute
 syn match csXMLEndTag /\%#=1<\/[[:alnum:]_:][[:alnum:]_:\-.]*>/ contained
 
 syn match csXMLAttribute /\%#=1[^"'>/=[:space:]]\+/ contained nextgroup=csXMLAttributeOperator skipwhite skipempty
 syn match csXMLAttributeOperator /\%#=1=/ contained nextgroup=csXMLValue skipwhite skipempty
 
-syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/ contained contains=csXMLCharacterReference
-syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1'/ end=/\%#=1'/ contained contains=csXMLCharacterReference
+syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/ contained oneline
+syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1'/ end=/\%#=1'/ contained oneline
 
-syn match csDirective /\%#=1^\s*\zs#.*/ containedin=ALLBUT,csDirective,csString,csComment
+syn match csDirective /\%#=1#.*/ containedin=@csBlocks
 
 syn match csTypeModifier /\%#=1[*?]/ contained nextgroup=csDeclarator,csTypeModifier skipwhite skipempty
 syn region csTypeModifier matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=@csRHS nextgroup=csDeclarator,csInitializer,csTypeModifier skipwhite skipempty
@@ -379,6 +403,8 @@ syn region csBlock matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contains=T
 
 syn match csDelimiterError /\%#=1[)\]}]/
 
+syn cluster csBlocks contains=cs\a\{-}Block,csInitializer
+
 " Highlighting {{{1
 hi def link csComment Comment
 hi def link csCommentStart csComment
@@ -386,7 +412,6 @@ hi def link csCommentEnd csCommentStart
 hi def link csTodo Todo
 hi def link csDirective PreProc
 hi def link csStatement Statement
-hi def link csCaseStatement csStatement
 hi def link csTypeName Typedef
 hi def link csRecordName csTypeName
 hi def link csRecordModifier csStatement
@@ -420,7 +445,7 @@ hi def link csIncrementOperator csOperator
 hi def link csDecrementOperator csOperator
 hi def link csPointerOperator csOperator
 hi def link csType Type
-hi def link csTypeModifier csType
+hi def link csTypeModifier csOperator
 hi def link csTypeIdentifier csIdentifier
 hi def link csRHSTypeIdentifier csTypeIdentifier
 hi def link csTypeMemberAccessOperator csMemberAccessOperator
@@ -444,16 +469,12 @@ hi def link csNullForgivingOperator csOperator
 hi def link csLambdaOperator csOperator
 hi def link csAccessor csStatement
 hi def link csOperatorKeyword Keyword
-hi def link csPatternKeyword csOperatorKeyword
-hi def link csPatternProperty csIdentifier
-hi def link csPatternPropertyMemberAccessOperator csMemberAccessOperator
 hi def link csUnaryOperatorKeyword csOperatorKeyword
 hi def link csRHSDeclarator csDeclarator
 hi def link csRHSIdentifier csIdentifier
 hi def link csRHSType csType
 hi def link csLINQKeyword Keyword
 hi def link csUnaryOperator csOperator
-hi def link csPatternIdentifier csIdentifier
 hi def link csFunctionKeyword Keyword
 hi def link csNumber Number
 hi def link csBoolean Boolean
@@ -468,7 +489,6 @@ hi def link csEscapeSequence PreProc
 hi def link csEscapeSequenceError Error
 hi def link csQuoteEscape csEscapeSequence
 hi def link csBraceEscape csEscapeSequence
-hi def link csFieldInitializer csDeclarator
 hi def link csKeywordError Error
 hi def link csAttribute csIdentifier
 hi def link csAttributeDelimiter PreProc
