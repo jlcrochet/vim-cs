@@ -213,7 +213,7 @@ syn match csAttribute /\%#=1\h\w*/ contained nextgroup=csAttributeInvocation ski
 syn region csAttributeInvocation matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS
 
 syn match csAssignmentOperator /\%#=1=/ contained nextgroup=@csRHS,csRHSTypeIdentifier,csInitializer skipwhite skipempty
-syn match csCompoundAssignmentOperator /\%#=1\%([+\-*/%^]\|&&\=\|||\=\|??\|<<\|>>\)=/ contained nextgroup=@csRHS,csRHSTypeIdentifier,csInitializer skipwhite skipempty
+syn match csCompoundAssignmentOperator /\%#=1\%([+\-*/%^]\|&&\=\|||\=\|??\|<<\|>>>\=\)=/ contained nextgroup=@csRHS,csRHSTypeIdentifier,csInitializer skipwhite skipempty
 
 syn match csLambdaOperator /\%#=1=>/ contained nextgroup=@csRHS,csBlock skipwhite skipempty
 
