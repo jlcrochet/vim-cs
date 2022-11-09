@@ -12,8 +12,6 @@ let b:current_syntax = "cs"
 " Syntax {{{1
 syn sync fromstart
 
-syn cluster csTop contains=TOP
-
 " Miscellaneous (low priority) {{{2
 syn keyword csKeywordError contained
       \ abstract as
@@ -95,12 +93,8 @@ syn keyword csStatement case nextgroup=@csPatterns skipwhite skipempty
 
 syn keyword csStatement default
 
-syn keyword csStatement for nextgroup=csForExpressions skipwhite skipempty
-syn region csForExpressions matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csTop,csForExpression
-syn region csForExpression start=/\%#=1;/ end=/\%#=1[;)]\@=/ contained contains=@csRHS
-
-syn keyword csStatement foreach nextgroup=csForeachExpression skipwhite skipempty
-syn region csForeachExpression matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=TOP
+syn keyword csStatement for foreach nextgroup=csIteratorExpression skipwhite skipempty
+syn region csIteratorExpression matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=TOP nextgroup=csBlock skipwhite skipempty
 
 syn keyword csStatement break continue yield
 
@@ -163,12 +157,12 @@ syn keyword csType nextgroup=csDeclarator,csIndexerThis,csMemberAccessOperator,c
 syn keyword csStatement var nextgroup=csDeclarator,csTupleDeclarator skipwhite skipempty
 syn region csTupleDeclarator matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csDeclarator nextgroup=csAssignmentOperator skipwhite skipempty
 
-syn match csIdentifier /\%#=1@\=\h\w*\%(<.\{-}>\)\=\%(?\.\@!\)\=\**\%(\[.\{-}\]\)*/ contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,csAssignmentOperator,csCompoundAssignmentOperator,csMemberAccessOperator,csNullForgivingOperator,csInvocation,csIndex,csOperatorModifier,csPropertyBlock skipwhite skipempty
+syn match csIdentifier /\%#=1@\=\h\w*\%(<.\{-}>\)\=\%(?\.\@!\)\=\**\%(\[.\{-}\]\)*/ contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,@csOperators,csInvocation,csIndex,csOperatorModifier,csPropertyBlock skipwhite skipempty
 syn region csGeneric matchgroup=csDelimiter start=/\%#=1</ end=/\%#=1>/ contained contains=csType,csTypeIdentifier,csModifier nextgroup=csDeclarator,csIndexerThis,csOperatorModifier,csPropertyBlock skipwhite skipempty
 syn region csInvocation matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS nextgroup=csInvocation,csIndex,@csOperators skipwhite skipempty
 syn region csIndex matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=@csRHS nextgroup=csInvocation,csIndex,@csOperators skipwhite skipempty
 
-syn keyword csConstant this base nextgroup=csAssignmentOperator,csCompoundAssignmentOperator,csMemberAccessOperator,csInvocation,csIndex skipwhite skipempty
+syn keyword csConstant this base nextgroup=@csOperators,csInvocation,csIndex skipwhite skipempty
 
 syn keyword csIndexerThis this contained nextgroup=csIndexerParameters skipwhite skipempty
 syn region csIndexerParameters matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=csTypeIdentifier,csModifier nextgroup=csPropertyBlock,csLambdaOperator skipwhite skipempty
@@ -204,14 +198,13 @@ syn match csMethodTypeVariable /\%#=1@\h\w*/ contained nextgroup=csMethodTypeInh
 
 syn region csTypeTuple matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csType,csTypeTuple,csIdentifier nextgroup=csDeclarator,csIndexerThis,csTypeModifier,csOperatorModifier skipwhite skipempty
 
-syn region csGroup matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contains=@csRHS,csRHSTypeIdentifier nextgroup=csAssignmentOperator,csMemberAccessOperator,csDeclarator,csInvocation,csIndex,csOperatorKeyword skipwhite skipempty
+syn region csGroup matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contains=@csRHS,csRHSTypeIdentifier nextgroup=@csOperators,csDeclarator,csInvocation,csIndex skipwhite skipempty
 
 syn region csAttributes matchgroup=csAttributeDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contains=csAttribute
 syn match csAttribute /\%#=1\h\w*/ contained nextgroup=csAttributeInvocation skipwhite skipempty
 syn region csAttributeInvocation matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS
 
 syn match csAssignmentOperator /\%#=1=/ contained nextgroup=@csRHS,csRHSTypeIdentifier,csInitializer skipwhite skipempty
-syn match csCompoundAssignmentOperator /\%#=1\%([+\-*/%^]\|&&\=\|||\=\|??\|<<\|>>>\=\)=/ contained nextgroup=@csRHS,csRHSTypeIdentifier,csInitializer skipwhite skipempty
 
 syn match csLambdaOperator /\%#=1=>/ contained nextgroup=@csRHS,csBlock skipwhite skipempty
 
@@ -454,7 +447,6 @@ hi def link csIndexerThis csConstant
 hi def link csThisModifier csConstant
 hi def link csOperator Operator
 hi def link csAssignmentOperator csOperator
-hi def link csCompoundAssignmentOperator csAssignmentOperator
 hi def link csMemberAccessOperator csOperator
 hi def link csNullForgivingOperator csOperator
 hi def link csLambdaOperator csOperator
