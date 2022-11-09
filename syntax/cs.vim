@@ -354,13 +354,6 @@ syn match csPatternPropertyMemberAccessOperator /\%#=1\./ contained nextgroup=cs
 syn region csPatternList matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1]/ contained contains=@csPatterns,csPatternSlice nextgroup=@csOperators skipwhite skipempty
 syn match csPatternSlice /\%#=1\.\./ contained
 
-hi def link csPatternType csType
-hi def link csPatternTypeIdentifier csTypeIdentifier
-hi def link csPatternTypeMemberAccessOperator csMemberAccessOperator
-hi def link csPatternDeclarator csDeclarator
-hi def link csPatternPropertyMemberAccessOperator csMemberAccessOperator
-hi def link csPatternSlice csOperator
-
 syn keyword csOperatorKeyword with contained nextgroup=csInitializer skipwhite skipempty
 
 syn keyword csFunctionKeyword typeof default checked unchecked sizeof nameof contained nextgroup=csRHSInvocation skipwhite skipempty
@@ -499,6 +492,12 @@ hi def link csXMLAttribute Keyword
 hi def link csXMLAttributeOperator Operator
 hi def link csXMLValue String
 hi def link csXMLValueDelimiter csXMLValue
+hi def link csPatternType csType
+hi def link csPatternTypeIdentifier csTypeIdentifier
+hi def link csPatternTypeMemberAccessOperator csMemberAccessOperator
+hi def link csPatternDeclarator csDeclarator
+hi def link csPatternPropertyMemberAccessOperator csMemberAccessOperator
+hi def link csPatternSlice csOperator
 " }}}1
 
 " vim:fdm=marker
