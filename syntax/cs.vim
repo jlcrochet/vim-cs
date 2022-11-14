@@ -364,10 +364,10 @@ syn region csComment matchgroup=csCommentStart start=/\%#=1\/\*/ matchgroup=csCo
 syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ keepend contains=csTodo,csXMLTag,csXMLEndTag containedin=@csBlocks
 syn keyword csTodo TODO NOTE XXX FIXME HACK TBD contained
 
-syn region csXMLTag matchgroup=csXMLTag start=/\%#=1<[[:alnum:]_:][[:alnum:]_:\-.]*/ end=/\%#=1>/ contained oneline contains=csXMLAttribute
+syn region csXMLTag matchgroup=csXMLTag start=/\%#=1<[[:alpha:]_:][[:alnum:]_:\-.]*/ end=/\%#=1>/ contained oneline contains=csXMLAttribute
 syn match csXMLEndTag /\%#=1<\/[[:alnum:]_:][[:alnum:]_:\-.]*>/ contained
 
-syn match csXMLAttribute /\%#=1[^"'>/=[:space:]]\+/ contained nextgroup=csXMLAttributeOperator skipwhite skipempty
+syn match csXMLAttribute /\%#=1[[:alpha:]_:][[:alnum:]_:\-.]*/ contained nextgroup=csXMLAttributeOperator skipwhite skipempty
 syn match csXMLAttributeOperator /\%#=1=/ contained nextgroup=csXMLValue skipwhite skipempty
 
 syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/ contained oneline
