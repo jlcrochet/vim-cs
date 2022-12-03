@@ -1,8 +1,8 @@
-function s:choice(...)
+function! s:choice(...)
   return '\%('.join(a:000, '\|').'\)'
 endfunction
 
-function s:optional(re)
+function! s:optional(re)
   return '\%('.a:re.'\)\='
 endfunction
 
@@ -34,12 +34,3 @@ let s:hexadecimal_re = s:hexadecimal . s:choice(
 let s:syn_match_template = 'syn match csNumber /\%%#=1%s\>/ contained nextgroup=@csOperators skipwhite skipempty'
 
 const g:cs_numbers = printf(s:syn_match_template .. repeat("\n" .. s:syn_match_template, 3), s:float_re, s:decimal_re, s:binary_re, s:hexadecimal_re)
-
-delfunction s:choice
-delfunction s:optional
-
-unlet
-      \ s:decimal s:binary s:hexadecimal
-      \ s:integer_suffix s:float_suffix s:exponent_suffix
-      \ s:float_re s:decimal_re s:binary_re s:hexadecimal_re
-      \ s:syn_match_template
