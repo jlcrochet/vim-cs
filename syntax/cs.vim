@@ -361,18 +361,17 @@ syn keyword csLINQKeyword in where select orderby group by ascending descending 
 " Miscellaneous (high priority) {{{2
 syn region csComment matchgroup=csCommentStart start=/\%#=1\/\// end=/\%#=1$/ contains=csTodo containedin=@csBlocks
 syn region csComment matchgroup=csCommentStart start=/\%#=1\/\*/ matchgroup=csCommentEnd end=/\%#=1\*\// contains=csTodo containedin=@csBlocks
-syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ keepend contains=csTodo,csXMLTag containedin=@csBlocks
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ keepend contains=csTodo,csXMLTag,csXMLEndTag containedin=@csBlocks
 syn keyword csTodo TODO NOTE XXX FIXME HACK TBD contained
 
-syn region csXMLTag matchgroup=csXMLDelimiter start=/\%#=1</ end=/\%#=1>/ contained oneline contains=csXMLTagName,csXMLDelimiter
-syn match csXMLDelimiter /\%#=1\// contained
-syn match csXMLTagName /\%#=1[[:alpha:]_:][[:alnum:]_:\-.]*/ contained nextgroup=csXMLAttribute skipwhite
+syn region csXMLTag matchgroup=csXMLTag start=/\%#=1<[[:alpha:]_:][[:alnum:]_:\-.]*/ end=/\%#=1>/ contained oneline contains=csXMLAttribute
+syn match csXMLEndTag /\%#=1<\/[[:alpha:]_:][[:alnum:]_:\-.]*>/ contained
 
-syn match csXMLAttribute /\%#=1[[:alpha:]_:][[:alnum:]_:\-.]*/ contained nextgroup=csXMLAttribute,csXMLAttributeOperator skipwhite
+syn match csXMLAttribute /\%#=1[[:alpha:]_:][[:alnum:]_:\-.]*/ contained nextgroup=csXMLAttributeOperator skipwhite
 syn match csXMLAttributeOperator /\%#=1=/ contained nextgroup=csXMLValue skipwhite
 
-syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/ contained oneline nextgroup=csXMLAttribute skipwhite
-syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1'/ end=/\%#=1'/ contained oneline nextgroup=csXMLAttribute skipwhite
+syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/ contained oneline
+syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1'/ end=/\%#=1'/ contained oneline
 
 syn match csDirective /\%#=1#.*/ containedin=@csBlocks
 
@@ -477,8 +476,8 @@ hi def link csKeywordError Error
 hi def link csAttribute csIdentifier
 hi def link csAttributeDelimiter PreProc
 hi def link csDelimiterError Error
-hi def link csXMLTagName Special
-hi def link csXMLDelimiter Delimiter
+hi def link csXMLTag Special
+hi def link csXMLEndTag csXMLTag
 hi def link csXMLAttribute Keyword
 hi def link csXMLAttributeOperator Operator
 hi def link csXMLValue String
