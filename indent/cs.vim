@@ -1,6 +1,6 @@
 " Vim indent file
 " Language: C#
-" Author: Jeffrey Crochet <jlcrochet@hey.com>
+" Author: Jeffrey Crochet <jlcrochet91@pm.me>
 " URL: github.com/jlcrochet/vim-cs
 
 if get(b:, "did_indent")

@@ -1,6 +1,6 @@
 " Vim syntax file
 " Language: C#
-" Author: Jeffrey Crochet <jlcrochet@hey.com>
+" Author: Jeffrey Crochet <jlcrochet91@pm.me>
 " URL: github.com/jlcrochet/vim-cs
 
 if exists("b:current_syntax")
