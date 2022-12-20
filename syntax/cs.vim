@@ -157,7 +157,7 @@ syn keyword csType nextgroup=csDeclarator,csIndexerThis,csMemberAccessOperator,c
 syn keyword csStatement var nextgroup=csDeclarator,csTupleDeclarator skipwhite skipempty
 syn region csTupleDeclarator matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csDeclarator nextgroup=csAssignmentOperator skipwhite skipempty
 
-syn match csIdentifier /\%#=1@\=\K\k*\%(<.\{-}>\)\=\%(?\.\@!\)\=\**\%(\[.\{-}\]\)*/ contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,@csOperators,csInvocation,csIndex,csOperatorModifier,csPropertyBlock skipwhite skipempty
+syn match csIdentifier /\%#=1@\=\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,@csOperators,csInvocation,csIndex,csOperatorModifier,csPropertyBlock skipwhite skipempty
 syn region csGeneric matchgroup=csDelimiter start=/\%#=1</ end=/\%#=1>/ contained contains=csType,csTypeIdentifier,csModifier nextgroup=csDeclarator,csIndexerThis,csOperatorModifier,csPropertyBlock skipwhite skipempty
 syn region csInvocation matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS nextgroup=csInvocation,csIndex,@csOperators skipwhite skipempty
 syn region csIndex matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=@csRHS nextgroup=csInvocation,csIndex,@csOperators skipwhite skipempty
@@ -309,8 +309,8 @@ syn match csOperator /\%#=1:/ contained nextgroup=@csRHS,csStatement skipwhite s
 syn match csOperator /\%#=1::/ contained nextgroup=csRHSIdentifier skipwhite skipempty
 
 syn region csRHSGroup matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS,csRHSTypeIdentifier nextgroup=@csRHS,@csOperators skipwhite skipempty
-syn match csRHSTypeIdentifier /\%#=1\K\k*\%(<.\{-}>\)\=\%(?[.\[]\@!\)\=\**/ contained contains=csType,csKeywordError,csGeneric,csTypeModifier nextgroup=csDeclarator,@csOperators,csRHSGroup,csRHSIndex skipwhite skipempty
-syn match csRHSTypeIdentifier /\%#=1@\K\k*\%(<.\{-}>\)\=\%(?[.\[]\@!\)\=\**/ contained contains=csGeneric,csTypeModifier nextgroup=csDeclarator,@csOperators,csRHSGroup,csRHSIndex skipwhite skipempty
+syn match csRHSTypeIdentifier /\%#=1\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contained contains=csType,csKeywordError,csGeneric,csTypeModifier nextgroup=csDeclarator,@csOperators,csRHSGroup,csRHSIndex skipwhite skipempty
+syn match csRHSTypeIdentifier /\%#=1@\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contained contains=csGeneric,csTypeModifier nextgroup=csDeclarator,@csOperators,csRHSGroup,csRHSIndex skipwhite skipempty
 
 syn keyword csOperatorKeyword as contained nextgroup=csRHSTypeIdentifier skipwhite skipempty
 syn keyword csOperatorKeyword in when contained nextgroup=@csRHS skipwhite skipempty
@@ -378,8 +378,8 @@ syn match csDirective /\%#=1#.*/ containedin=@csBlocks
 syn match csTypeModifier /\%#=1[*?]/ contained nextgroup=csDeclarator,csTypeModifier skipwhite skipempty
 syn region csTypeModifier matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=@csRHS nextgroup=csDeclarator,csInitializer,csTypeModifier skipwhite skipempty
 
-syn match csTypeIdentifier /\%#=1\K\k*\%(<.\{-}>\)\=?\=\**\%(\[.\{-}\]\)*/ contained contains=csType,csKeywordError,csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,csTypeMemberAccessOperator,csOperatorModifier skipwhite skipempty
-syn match csTypeIdentifier /\%#=1@\K\k*\%(<.\{-}>\)\=?\=\**\%(\[.\{-}\]\)*/ contained contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,csTypeMemberAccessOperator,csOperatorModifier skipwhite skipempty
+syn match csTypeIdentifier /\%#=1\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contained contains=csType,csKeywordError,csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,csTypeMemberAccessOperator,csOperatorModifier skipwhite skipempty
+syn match csTypeIdentifier /\%#=1@\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contained contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,csTypeMemberAccessOperator,csOperatorModifier skipwhite skipempty
 syn match csTypeMemberAccessOperator /\%#=1\./ contained nextgroup=csTypeIdentifier skipwhite skipempty
 syn match csTypeMemberAccessOperator /\%#=1::/ contained nextgroup=csTypeIdentifier skipwhite skipempty
 
