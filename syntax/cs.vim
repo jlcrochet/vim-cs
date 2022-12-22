@@ -65,7 +65,7 @@ syn keyword csStatement record nextgroup=csRecordName,csRecordModifier skipwhite
 syn keyword csRecordModifier struct class contained nextgroup=csRecordName skipwhite skipempty
 syn match csRecordName /\%#=1\K\k*/ contained contains=csKeywordError nextgroup=csTypeBlock,csRecordProperties,csTypeInheritanceOperator skipwhite skipempty
 syn match csRecordName /\%#=1@\K\k*/ contained nextgroup=csTypeBlock,csRecordProperties,csTypeInheritanceOperator skipwhite skipempty
-syn region csRecordProperties matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csType,csTypeIdentifier nextgroup=csTypeBlock,csTypeInheritanceOperator skipwhite skipempty
+syn region csRecordProperties matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csType,csTypeIdentifier,csAttributes nextgroup=csTypeBlock,csTypeInheritanceOperator skipwhite skipempty
 
 syn match csDestructorSign /\%#=1\~/ contained containedin=csTypeBlock nextgroup=csDestructor skipwhite skipempty
 syn match csDestructor /\%#=1\K\k*/ contained contains=csKeywordError nextgroup=csParameters skipwhite skipempty
