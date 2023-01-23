@@ -300,7 +300,7 @@ syn match csOperator /\%#=1<<\==\=/ contained nextgroup=@csRHS skipwhite skipemp
 syn match csOperator /\%#=1>>\=>\==\=/ contained nextgroup=@csRHS skipwhite skipempty
 syn match csOperator /\%#=1&&\==\=/ contained nextgroup=@csRHS skipwhite skipempty
 syn match csOperator /\%#=1||\==\=/ contained nextgroup=@csRHS skipwhite skipempty
-syn match csOperator /\%#=1??\==\=/ contained nextgroup=@csRHS skipwhite skipempty
+syn match csOperator /\%#=1?\%(?=\=\)\=/ contained nextgroup=@csRHS skipwhite skipempty
 
 syn match csOperator /\%#=1\./ contained nextgroup=csRHSIdentifier,csRHSConstant skipwhite skipempty
 syn match csOperator /\%#=1\.\./ contained nextgroup=@csRHS skipwhite skipempty
