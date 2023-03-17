@@ -374,6 +374,7 @@ syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/
 syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1'/ end=/\%#=1'/ contained oneline
 
 syn match csDirective /\%#=1#.*/ containedin=@csBlocks
+syn region csRegion matchgroup=csDirective start=/\%#=1#region\>.*/ end=/\%#=1#endregion\>.*/ containedin=@csBlocks,csRegion transparent fold
 
 syn match csTypeModifier /\%#=1[*?]/ contained nextgroup=csDeclarator,csTypeModifier skipwhite skipempty
 syn region csTypeModifier matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=@csRHS nextgroup=csDeclarator,csInitializer,csTypeModifier skipwhite skipempty
