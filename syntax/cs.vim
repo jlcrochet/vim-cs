@@ -33,6 +33,11 @@ syn keyword csKeywordError contained
       \ virtual void volatile
       \ while
 
+syn match csDelimiter /\%#=1,/ containedin=@csExtras
+syn match csDelimiter /\%#=1;/ containedin=@csBlocks
+
+syn region csBlock matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contains=TOP fold
+
 " LHS {{{2
 syn keyword csStatement global alias
 
@@ -359,15 +364,15 @@ syn keyword csLINQKeyword let contained nextgroup=csDeclarator skipwhite skipemp
 syn keyword csLINQKeyword in where select orderby group by ascending descending join on equals contained
 
 " Miscellaneous (high priority) {{{2
-syn region csComment matchgroup=csCommentStart start=/\%#=1\/\// end=/\%#=1$/ contains=csTodo containedin=@csBlocks
-syn region csComment matchgroup=csCommentStart start=/\%#=1\/\*/ matchgroup=csCommentEnd end=/\%#=1\*\// contains=csTodo containedin=@csBlocks
-syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ keepend contains=csTodo,csXMLTag,csXMLEndTag containedin=@csBlocks
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\// end=/\%#=1$/ contains=csTodo containedin=@csExtras
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\*/ matchgroup=csCommentEnd end=/\%#=1\*\// contains=csTodo containedin=@csExtras
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ keepend contains=csTodo,csXMLTag,csXMLEndTag containedin=@csExtras
 syn keyword csTodo TODO NOTE XXX FIXME HACK TBD contained
 
-syn region csXMLTag matchgroup=csXMLTag start=/\%#=1<[[:alpha:]_:][[:alnum:]_:\-.]*/ end=/\%#=1>/ contained oneline contains=csXMLAttribute
-syn match csXMLEndTag /\%#=1<\/[[:alpha:]_:][[:alnum:]_:\-.]*>/ contained
+syn region csXMLTag matchgroup=csXMLTag start=/\%#=1<\a[^[:space:]/>]*/ end=/\%#=1>/ contained oneline contains=csXMLAttribute
+syn match csXMLEndTag /\%#=1<\/\a[^[:space:]/>]*>/ contained
 
-syn match csXMLAttribute /\%#=1[[:alpha:]_:][[:alnum:]_:\-.]*/ contained nextgroup=csXMLAttributeOperator skipwhite
+syn match csXMLAttribute /\%#=1[^>/=[:space:]]\+/ contained nextgroup=csXMLAttributeOperator skipwhite
 syn match csXMLAttributeOperator /\%#=1=/ contained nextgroup=csXMLValue skipwhite
 
 syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/ contained oneline
@@ -384,11 +389,11 @@ syn match csTypeIdentifier /\%#=1@\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/
 syn match csTypeMemberAccessOperator /\%#=1\./ contained nextgroup=csTypeIdentifier skipwhite skipempty
 syn match csTypeMemberAccessOperator /\%#=1::/ contained nextgroup=csTypeIdentifier skipwhite skipempty
 
-syn region csBlock matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contains=TOP fold
+syn cluster csBlocks contains=cs\a\{-}Block
 
-syn match csDelimiterError /\%#=1[)\]}]/
-
-syn cluster csBlocks contains=cs\a\{-}Block,csInitializer
+syn cluster csExtras contains=
+      \ ALLBUT,
+      \ csString,csCharacter,csComment,csXML\a\{-},csDirective,csEscapeSequenceError
 
 " Highlighting {{{1
 hi def link csComment Comment
@@ -476,7 +481,6 @@ hi def link csBraceEscape csEscapeSequence
 hi def link csKeywordError Error
 hi def link csAttribute csIdentifier
 hi def link csAttributeDelimiter PreProc
-hi def link csDelimiterError Error
 hi def link csXMLTag Special
 hi def link csXMLEndTag csXMLTag
 hi def link csXMLAttribute Keyword
@@ -489,6 +493,8 @@ hi def link csPatternTypeMemberAccessOperator csMemberAccessOperator
 hi def link csPatternDeclarator csDeclarator
 hi def link csPatternPropertyMemberAccessOperator csMemberAccessOperator
 hi def link csPatternSlice csOperator
+hi def link csComma csDelimiter
+hi def link csTypeInheriteeComma csComma
 " }}}1
 
 " vim:fdm=marker
