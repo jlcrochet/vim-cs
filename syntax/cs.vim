@@ -274,7 +274,7 @@ syn keyword csBoolean true false contained nextgroup=@csOperators skipwhite skip
 syn keyword csNull null contained nextgroup=@csOperators skipwhite skipempty
 syn keyword csRHSConstant this base contained nextgroup=@csOperators,csRHSInvocation,csRHSIndex skipwhite skipempty
 
-syn match csCharacter /\%#=1'\%(\\\%(x\x\{1,4}\|u\x\{4}\|U\x\{8}\|.\)\|.\)'/ contained contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipempty
+syn region csCharacter matchgroup=csCharacterDelimiter start=/\%#=1'/ end=/\%#=1'/ oneline contained contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipempty
 
 syn region csString matchgroup=csStringStart start=/\%#=1"/    matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained oneline contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipempty
 syn region csString matchgroup=csStringStart start=/\%#=1\$"/  matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained oneline contains=csBraceEscape,csEscapeSequence,csEscapeSequenceError,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
@@ -469,10 +469,11 @@ hi def link csNumber Number
 hi def link csBoolean Boolean
 hi def link csNull Constant
 hi def link csCharacter Character
+hi def link csCharacterDelimiter csDelimiter
 hi def link csString String
-hi def link csStringStart csString
+hi def link csStringStart csDelimiter
 hi def link csStringEnd csStringStart
-hi def link csStringInterpolationDelimiter PreProc
+hi def link csStringInterpolationDelimiter csDelimiter
 hi def link csStringInterpolationError Error
 hi def link csEscapeSequence PreProc
 hi def link csEscapeSequenceError Error
@@ -480,13 +481,13 @@ hi def link csQuoteEscape csEscapeSequence
 hi def link csBraceEscape csEscapeSequence
 hi def link csKeywordError Error
 hi def link csAttribute csIdentifier
-hi def link csAttributeDelimiter PreProc
+hi def link csAttributeDelimiter csDelimiter
 hi def link csXMLTag Special
 hi def link csXMLEndTag csXMLTag
 hi def link csXMLAttribute Keyword
 hi def link csXMLAttributeOperator Operator
 hi def link csXMLValue String
-hi def link csXMLValueDelimiter csXMLValue
+hi def link csXMLValueDelimiter csDelimiter
 hi def link csPatternType csType
 hi def link csPatternTypeIdentifier csTypeIdentifier
 hi def link csPatternTypeMemberAccessOperator csMemberAccessOperator
