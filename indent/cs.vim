@@ -47,7 +47,8 @@ function GetCSIndent() abort
   " If the previous line was a preprocessor directive or was inside of
   " a multiline region, find the nearest previous line that wasn't.
   let start_lnum = prev_lnum
-  let [first_char, _, first_col] = getline(start_lnum)->matchstrpos('\S')
+  let start_line = getline(start_lnum)
+  let [first_char, _, first_col] = start_line->matchstrpos('\S')
 
   while first_char ==# '#' || s:is_multiline(synID(start_lnum, 1, 0))
     let start_lnum = prevnonblank(start_lnum - 1)
@@ -56,7 +57,8 @@ function GetCSIndent() abort
       return 0
     endif
 
-    let [first_char, _, first_col] = getline(start_lnum)->matchstrpos('\S')
+    let start_line = getline(start_lnum)
+    let [first_char, _, first_col] = start_line->matchstrpos('\S')
   endwhile
 
   " If the previous line was an attribute line or a comment, align with
