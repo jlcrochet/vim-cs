@@ -1,7 +1,7 @@
 " Vim indent file
 " Language: C#
 " Author: Jeffrey Crochet <jlcrochet91@pm.me>
-" URL: github.com/jlcrochet/vim-cs
+" URL: https://github.com/jlcrochet/vim-cs
 
 if get(b:, "did_indent")
   finish
@@ -17,13 +17,23 @@ if exists("*GetCSIndent")
   finish
 endif
 
-let s:skip_attribute_delimiter = "synID(line('.'), col('.'), 0)->synIDattr('name') !=# 'csAttributeDelimiter'"
+let s:skip_attribute_delimiter = "synID(line('.'), col('.'), 0) != g:cs#syntax#hl.attribute_delimiter"
+
+function s:is_multiline(id) abort
+  let hl = g:cs#syntax#hl
+
+  return
+      \ a:id == hl.comment ||
+      \ a:id == hl.comment_end ||
+      \ a:id == hl.string ||
+      \ a:id == hl.string_end
+endfunction
 
 function GetCSIndent() abort
   " Do nothing if the current line is inside of a multiline region.
-  let syngroup = synID(v:lnum, 1, 0)->synIDattr("name")
+  let id = synID(v:lnum, 1, 0)
 
-  if syngroup =~# '^cs\%(Comment\|String\)\%(End\)\=$'
+  if s:is_multiline(id)
     return -1
   endif
 
@@ -42,43 +52,36 @@ function GetCSIndent() abort
 
   " If the previous line was a preprocessor directive or was inside of
   " a multiline region, find the nearest previous line that wasn't.
-  let prev_line = getline(prev_lnum)
-  let first_idx = match(prev_line, '\S')
-  let first_char = prev_line[first_idx]
-  let syngroup = synID(prev_lnum, 1, 0)->synIDattr("name")
+  let start_lnum = prev_lnum
+  let [first_char, _, first_col] = getline(start_lnum)->matchstrpos('\S')
 
-  while first_char ==# "#" || syngroup =~# '^cs\%(Comment\|String\)\%(End\)\=$'
-    let prev_lnum = prevnonblank(prev_lnum - 1)
+  while first_char ==# '#' || s:is_multiline(synID(start_lnum, 1, 0))
+    let start_lnum = prevnonblank(start_lnum - 1)
 
-    if prev_lnum == 0
+    if start_lnum == 0
       return 0
     endif
 
-    let prev_line = getline(prev_lnum)
-    let first_idx = match(prev_line, '\S')
-    let first_char = prev_line[first_idx]
-    let syngroup = synID(prev_lnum, 1, 0)->synIDattr("name")
+    let [first_char, _, first_col] = getline(start_lnum)->matchstrpos('\S')
   endwhile
 
   " If the previous line was an attribute line or a comment, align with
   " the previous line.
-  if first_char ==# "["
-    call cursor(prev_lnum, first_idx + 1)
+  if first_char ==# '['
+    if synID(start_lnum, first_col, 0) == g:cs#syntax#hl.attribute_delimiter
+      call cursor(start_lnum, first_col)
 
-    if searchpair('\[', "", '\]', "z", s:skip_attribute_delimiter, prev_lnum)
-      return first_idx
+      if searchpair('\[', '', ']', "z", s:skip_attribute_delimiter, start_lnum)
+        return indent(start_lnum)
+      endif
     endif
-  elseif first_char ==# "]"
-    call cursor(prev_lnum, first_idx + 1)
-
-    let [_, col] = searchpairpos('\[', "", '\]', "bW", s:skip_attribute_delimiter)
-
-    return col - 1
-  elseif first_char ==# "/"
-    let second_char = prev_line[first_idx + 1]
-
-    if second_char ==# "/" || second_char ==# "*"
-      return first_idx
+  elseif first_col ==# ']'
+    if synID(start_lnum, first_col, 0) == g:cs#syntax#hl.attribute_delimiter
+      return indent(start_lnum)
+    endif
+  elseif first_char ==# '/'
+    if synID(start_lnum, first_col, 0) == g:cs#syntax#hl.comment_start
+      return indent(start_lnum)
     endif
   endif
 

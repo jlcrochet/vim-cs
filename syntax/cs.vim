@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language: C#
 " Author: Jeffrey Crochet <jlcrochet91@pm.me>
-" URL: github.com/jlcrochet/vim-cs
+" URL: https://github.com/jlcrochet/vim-cs
 
 if exists("b:current_syntax")
   finish
@@ -295,8 +295,9 @@ syn match csBraceEscape /\%#=1{{/ contained
 syn match csBraceEscape /\%#=1}}/ contained
 
 syn match csOperator /\%#=1!/ contained nextgroup=@csOperators,csRHSInvocation,csRHSIndex skipwhite skipempty
-syn match csOperator /\%#=1!=/ contained nextgroup=@csRHS skipwhite skipempty
-syn match csOperator /\%#=1[=+*/%]=\=/ contained nextgroup=@csRHS skipwhite skipempty
+syn match csOperator /\%#=1=/ contained nextgroup=@csRHS,csInitializer skipwhite skipempty
+syn match csOperator /\%#=1[=!]=/ contained nextgroup=@csRHS skipwhite skipempty
+syn match csOperator /\%#=1[+*/%]=\=/ contained nextgroup=@csRHS skipwhite skipempty
 syn match csOperator /\%#=1=>/ contained nextgroup=@csRHS,csBlock skipwhite skipempty
 syn match csOperator /\%#=1-[>=]\=/ contained nextgroup=@csRHS skipwhite skipempty
 syn match csOperator /\%#=1++/ contained nextgroup=@csOperators skipwhite skipempty
