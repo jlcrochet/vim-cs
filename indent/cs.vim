@@ -44,12 +44,6 @@ function GetCSIndent() abort
     return 0
   endif
 
-  " If the current line begins with a closing bracket, use
-  " C indentation.
-  if getline(v:lnum) =~# '^\s*[)\]}]'
-    return cindent(v:lnum)
-  endif
-
   " If the previous line was a preprocessor directive or was inside of
   " a multiline region, find the nearest previous line that wasn't.
   let start_lnum = prev_lnum
