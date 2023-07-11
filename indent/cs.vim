@@ -74,7 +74,9 @@ function GetCSIndent() abort
       return indent(start_lnum)
     endif
   elseif first_char ==# '/'
-    if synID(start_lnum, first_col, 0) == g:cs#syntax#hl.comment_start
+    let second_char = start_line[first_col]
+
+    if (second_char ==# '/' || second_char ==# '*') && synID(start_lnum, first_col, 0) == g:cs#syntax#hl.comment_start
       return indent(start_lnum)
     endif
   endif
