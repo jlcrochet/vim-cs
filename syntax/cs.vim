@@ -359,10 +359,12 @@ syn region csRHSAttributes matchgroup=csAttributeDelimiter start=/\%#=1\[/ end=/
 syn region csIndexSetter matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1]/ contained contains=@csRHS nextgroup=csAssignmentOperator skipwhite skipempty
 
 syn region csLINQExpression start=/\%#=1\<from\>/ end=/\%#=1[)\]};]\@=/ contained transparent contains=csLINQKeyword,@csRHS
-syn keyword csLINQKeyword from into contained nextgroup=csDeclarator,csLINQDeclaration skipwhite skipempty
+syn keyword csLINQKeyword from into contained nextgroup=csLINQDeclarator,csLINQDeclaration skipwhite skipempty
 syn match csLINQDeclaration /\%#=1@\=\K\k*\%(\.@\=\K\k*\)*\%(<.\{-}>\)\=\s\+\%(in\>\)\@!@\=\K\k*/ contained contains=csType,csIdentifier
-syn keyword csLINQKeyword let contained nextgroup=csDeclarator skipwhite skipempty
+syn keyword csLINQKeyword let contained nextgroup=csLINQDeclarator skipwhite skipempty
 syn keyword csLINQKeyword in where select orderby group by ascending descending join on equals contained
+syn match csLINQDeclarator /\%#=1\K\k*/ contained contains=csKeywordError nextgroup=csAssignmentOperator skipwhite skipempty
+syn match csLINQDeclarator /\%#=1@\K\k*/ contained nextgroup=csAssignmentOperator skipwhite skipempty
 
 " Miscellaneous (high priority) {{{2
 syn region csComment matchgroup=csCommentStart start=/\%#=1\/\// end=/\%#=1$/ contains=csTodo containedin=@csExtras
@@ -497,6 +499,7 @@ hi def link csPatternPropertyMemberAccessOperator csMemberAccessOperator
 hi def link csPatternSlice csOperator
 hi def link csComma csDelimiter
 hi def link csTypeInheriteeComma csComma
+hi def link csLINQDeclarator csDeclarator
 " }}}1
 
 " vim:fdm=marker
