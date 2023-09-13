@@ -162,7 +162,7 @@ syn keyword csType nextgroup=csDeclarator,csIndexerThis,csMemberAccessOperator,c
 syn keyword csStatement var nextgroup=csDeclarator,csTupleDeclarator skipwhite skipempty
 syn region csTupleDeclarator matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csDeclarator nextgroup=csAssignmentOperator skipwhite skipempty
 
-syn match csIdentifier /\%#=1@\=\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,@csOperators,csInvocation,csIndex,csOperatorModifier,csPropertyBlock skipwhite skipempty
+syn match csIdentifier /\%#=1@\=\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,@csOperators,csInvocation,csIndex,csOperatorModifier,csPropertyBlock,csTypeMemberAccessOperator skipwhite skipempty
 syn region csGeneric matchgroup=csDelimiter start=/\%#=1</ end=/\%#=1>/ contained contains=csType,csTypeTuple,csTypeIdentifier,csModifier nextgroup=csDeclarator,csIndexerThis,csOperatorModifier,csPropertyBlock skipwhite skipempty
 syn region csInvocation matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS nextgroup=csInvocation,csIndex,@csOperators skipwhite skipempty
 syn region csIndex matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=@csRHS nextgroup=csInvocation,csIndex,@csOperators skipwhite skipempty
