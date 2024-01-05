@@ -478,7 +478,7 @@ hi def link csStringStart csDelimiter
 hi def link csStringEnd csStringStart
 hi def link csStringInterpolationDelimiter csDelimiter
 hi def link csStringInterpolationError Error
-hi def link csEscapeSequence PreProc
+hi def link csEscapeSequence SpecialChar
 hi def link csEscapeSequenceError Error
 hi def link csQuoteEscape csEscapeSequence
 hi def link csBraceEscape csEscapeSequence
