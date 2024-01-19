@@ -369,17 +369,16 @@ syn match csLINQDeclarator /\%#=1@\K\k*/ contained nextgroup=csAssignmentOperato
 " Miscellaneous (high priority) {{{2
 syn region csComment matchgroup=csCommentStart start=/\%#=1\/\// end=/\%#=1$/ contains=csTodo containedin=@csExtras
 syn region csComment matchgroup=csCommentStart start=/\%#=1\/\*/ matchgroup=csCommentEnd end=/\%#=1\*\// contains=csTodo containedin=@csExtras
-syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ keepend contains=csTodo,csXMLTag,csXMLEndTag containedin=@csExtras
+syn region csComment matchgroup=csCommentStart start=/\%#=1\/\/\// end=/\%#=1$/ keepend contains=csTodo,csXMLTagStart containedin=@csExtras
 syn keyword csTodo TODO NOTE XXX FIXME HACK TBD contained
 
-syn region csXMLTag matchgroup=csXMLTag start=/\%#=1<\a[^[:space:]/>]*/ end=/\%#=1>/ contained oneline contains=csXMLAttribute
-syn match csXMLEndTag /\%#=1<\/\a[^[:space:]/>]*>/ contained
-
-syn match csXMLAttribute /\%#=1[^>/=[:space:]]\+/ contained nextgroup=csXMLAttributeOperator skipwhite
+syn match csXMLTagStart /\%#=1<\/\=/ contained nextgroup=csXMLTagName
+syn match csXMLTagName /\%#=1\a[^[:space:]\>]*/ contained nextgroup=csXMLAttribute,csXMLTagEnd skipwhite
+syn match csXMLAttribute /\%#=1[^>/=[:space:]]\+/ contained nextgroup=csXMLAttributeOperator,csXMLTagEnd skipwhite
 syn match csXMLAttributeOperator /\%#=1=/ contained nextgroup=csXMLValue skipwhite
-
-syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/ contained oneline
-syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1'/ end=/\%#=1'/ contained oneline
+syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/ contained oneline nextgroup=csXMLTagEnd skipwhite
+syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1'/ end=/\%#=1'/ contained oneline nextgroup=csXMLTagEnd skipwhite
+syn match csXMLTagEnd /\%#=1\/\=>/ contained
 
 syn match csDirective /\%#=1#.*/ containedin=@csBlocks
 syn region csRegion matchgroup=csDirective start=/\%#=1#region\>.*/ end=/\%#=1#endregion\>.*/ containedin=@csBlocks,csRegion transparent fold
@@ -396,7 +395,7 @@ syn cluster csBlocks contains=cs\a\{-}Block
 
 syn cluster csExtras contains=
       \ ALLBUT,
-      \ csString,csCharacter,csComment,csXML\a\{-},csDirective,csEscapeSequenceError
+      \ csString,csCharacter,csComment,csXMLTagName,csXMLAttribute,csXMLValue,csDirective,csEscapeSequenceError
 
 " Highlighting {{{1
 hi def link csComment Comment
@@ -485,8 +484,9 @@ hi def link csBraceEscape csEscapeSequence
 hi def link csKeywordError Error
 hi def link csAttribute csIdentifier
 hi def link csAttributeDelimiter csDelimiter
-hi def link csXMLTag Special
-hi def link csXMLEndTag csXMLTag
+hi def link csXMLTagStart Delimiter
+hi def link csXMLTagName Special
+hi def link csXMLTagEnd csXMLTagStart
 hi def link csXMLAttribute Keyword
 hi def link csXMLAttributeOperator Operator
 hi def link csXMLValue String
