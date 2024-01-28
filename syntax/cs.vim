@@ -230,7 +230,7 @@ syn cluster csLiterals contains=
 syn cluster csRHS contains=
       \ @csLiterals,
       \ csUnaryOperator,csUnaryOperatorKeyword,csRHSIdentifier,csRHSType,
-      \ csRHSGroup,csFunctionKeyword,csRHSAttributes,csLINQExpression
+      \ csRHSGroup,csRHSAttributes,csLINQExpression
 
 syn cluster csOperators contains=csOperator,csOperatorKeyword,csComment
 
@@ -248,6 +248,9 @@ syn keyword csUnaryOperatorKeyword throw nextgroup=@csRHS skipwhite skipempty
 syn keyword csUnaryOperatorKeyword static contained nextgroup=csRHSType,csRHSIdentifier skipwhite skipempty
 syn keyword csUnaryOperatorKeyword delegate contained nextgroup=csFunctionPointerModifier skipwhite skipempty
 syn keyword csUnaryOperatorKeyword not contained nextgroup=@csPatterns skipwhite skipempty
+
+syn keyword csUnaryOperatorKeyword typeof checked unchecked sizeof nameof contained nextgroup=csRHSInvocation skipwhite skipempty
+syn keyword csUnaryOperatorKeyword default contained nextgroup=csRHSInvocation,@csOperators skipwhite skipempty
 
 syn keyword csUnaryOperatorKeyword var contained nextgroup=csRHSDeclarator,csRHSTupleDeclarator skipwhite skipempty
 syn match csRHSDeclarator /\%#=1\K\k*/ contained contains=csKeywordError nextgroup=@csOperators skipwhite skipempty
@@ -352,8 +355,6 @@ syn region csPatternList matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1]/ con
 syn match csPatternSlice /\%#=1\.\./ contained
 
 syn keyword csOperatorKeyword with contained nextgroup=csInitializer skipwhite skipempty
-
-syn keyword csFunctionKeyword typeof default checked unchecked sizeof nameof contained nextgroup=csRHSInvocation skipwhite skipempty
 
 syn region csRHSAttributes matchgroup=csAttributeDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=csAttribute nextgroup=@csRHS,@csOperators skipwhite skipempty
 syn region csIndexSetter matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1]/ contained contains=@csRHS nextgroup=csAssignmentOperator skipwhite skipempty
@@ -466,7 +467,6 @@ hi def link csRHSIdentifier csIdentifier
 hi def link csRHSType csType
 hi def link csLINQKeyword Keyword
 hi def link csUnaryOperator csOperator
-hi def link csFunctionKeyword Keyword
 hi def link csNumber Number
 hi def link csBoolean Boolean
 hi def link csNull Constant
