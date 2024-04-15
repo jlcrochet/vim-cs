@@ -510,6 +510,7 @@ hi def link csPatternListVar csStatement
 hi def link csPatternListDeclarator csDeclarator
 hi def link csPatternListDeclaratorComma csDeclaratorComma
 hi def link csReadonly csUnaryOperatorKeyword
+hi def link csPatternPropertyColon csOperator
 " }}}1
 
 " vim:fdm=marker
