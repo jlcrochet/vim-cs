@@ -49,18 +49,18 @@ syn region csGenericParameters matchgroup=csDelimiter start=/\%#=1</ end=/\%#=1>
 syn match csGenericParameter /\%#=1\K\k*/ contained contains=csKeywordError
 syn match csGenericParameter /\%#=1@\K\k*/ contained
 syn match csTypeInheritanceOperator /\%#=1:/ contained nextgroup=csTypeInheritee,csTypeInheriteeKeyword skipwhite skipempty
-syn match csTypeInheritee /\%#=1\K\k*\%(<.\{-}>\)\=/ contained contains=csKeywordError,csGeneric nextgroup=csTypeBlock,csTypeInheriteeMemberAccessOperator,csTypeInheriteeComma,csTypeConstraint,csTypeInheriteeArguments,csTypeConstraintModifier skipwhite skipempty
-syn match csTypeInheritee /\%#=1@\K\k*\%(<.\{-}>\)\=/ contained contains=csGeneric nextgroup=csTypeBlock,csTypeInheriteeMemberAccessOperator,csTypeInheriteeComma,csTypeConstraint,csTypeInheriteeArguments,csTypeConstraintModifier skipwhite skipempty
+syn match csTypeInheritee /\%#=1\K\k*\%(<.\{-}>\)\=/ contained contains=csKeywordError,csGeneric nextgroup=csTypeBlock,csTypeInheriteeMemberOperator,csTypeInheriteeComma,csTypeConstraint,csTypeInheriteeArguments,csTypeConstraintModifier skipwhite skipempty
+syn match csTypeInheritee /\%#=1@\K\k*\%(<.\{-}>\)\=/ contained contains=csGeneric nextgroup=csTypeBlock,csTypeInheriteeMemberOperator,csTypeInheriteeComma,csTypeConstraint,csTypeInheriteeArguments,csTypeConstraintModifier skipwhite skipempty
 syn keyword csTypeInheriteeKeyword contained nextgroup=csTypeBlock,csTypeInheriteeComma,csTypeConstraint,csTypeConstraintModifier skipwhite skipempty
       \ sbyte short int long byte ushort uint ulong float double decimal nint nuint
       \ char bool object string void dynamic
       \ class struct enum default notnull
-syn match csTypeConstraintModifier /\%#=1?/ contained nextgroup=csTypeInheriteeMemberAccessOperator,csTypeInheriteeComma,csTypeConstraint skipwhite skipempty
+syn match csTypeConstraintModifier /\%#=1?/ contained nextgroup=csTypeInheriteeMemberOperator,csTypeInheriteeComma,csTypeConstraint skipwhite skipempty
 syn keyword csTypeInheriteeKeyword new contained nextgroup=csTypeInheriteeArguments,csTypeInheritee skipwhite skipempty
 syn keyword csTypeInheriteeKeyword managed unmanaged contained nextgroup=csTypeBlock,csTypeInheriteeComma skipwhite skipempty
 syn region csTypeInheriteeArguments matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csTypeVariable nextgroup=csTypeBlock,csTypeInheriteeComma,csTypeConstraint,csTypeConstraintLambdaOperator skipwhite skipempty
 syn match csTypeConstraintLambdaOperator /\%#=1=>/ contained nextgroup=csTypeInheriteeKeyword skipwhite skipempty
-syn match csTypeInheriteeMemberAccessOperator /\%#=1\./ contained nextgroup=csTypeInheritee,csTypeInheriteeKeyword skipwhite skipempty
+syn match csTypeInheriteeMemberOperator /\%#=1\./ contained nextgroup=csTypeInheritee,csTypeInheriteeKeyword skipwhite skipempty
 syn match csTypeInheriteeComma /\%#=1,/ contained nextgroup=csTypeInheritee,csTypeInheriteeKeyword skipwhite skipempty
 syn keyword csTypeConstraint where contained nextgroup=csTypeVariable skipwhite skipempty
 syn match csTypeVariable /\%#=1\K\k*/ contained contains=csKeywordError nextgroup=csTypeInheritanceOperator skipwhite skipempty
@@ -149,14 +149,14 @@ syn keyword csConversionMethodKeyword contained nextgroup=csParameters skipwhite
       \ sbyte short int long byte ushort uint ulong float double decimal nint nuint
       \ char bool object string void dynamic
 
-syn keyword csType nextgroup=csDeclarator,csIndexerThis,csMemberAccessOperator,csInvocation,csTypeModifier,csOperatorModifier skipwhite skipempty
+syn keyword csType nextgroup=csDeclarator,csIndexerThis,csMemberOperator,csInvocation,csTypeModifier,csOperatorModifier skipwhite skipempty
       \ sbyte short int long byte ushort uint ulong float double decimal nint nuint
       \ char bool object string void dynamic
 
 syn keyword csStatement var nextgroup=csDeclarator,csTupleDeclarator skipwhite skipempty
 syn region csTupleDeclarator matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csDeclarator,csTupleDeclarator nextgroup=csAssignmentOperator skipwhite skipempty
 
-syn match csIdentifier /\%#=1@\=\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,@csOperators,csInvocation,csIndex,csOperatorModifier,csPropertyBlock,csTypeMemberAccessOperator skipwhite skipempty
+syn match csIdentifier /\%#=1@\=\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,@csOperators,csInvocation,csIndex,csOperatorModifier,csPropertyBlock,csTypeMemberOperator skipwhite skipempty
 syn region csGeneric matchgroup=csDelimiter start=/\%#=1</ end=/\%#=1>/ contained contains=csType,csTypeTuple,csTypeIdentifier,csModifier nextgroup=csDeclarator,csIndexerThis,csOperatorModifier,csPropertyBlock skipwhite skipempty
 syn region csInvocation matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS nextgroup=csInvocation,csIndex,@csOperators skipwhite skipempty
 syn region csIndex matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=@csRHS nextgroup=csInvocation,csIndex,@csOperators skipwhite skipempty
@@ -166,11 +166,11 @@ syn keyword csConstant this base nextgroup=@csOperators,csInvocation,csIndex ski
 syn keyword csIndexerThis this contained nextgroup=csIndexerParameters skipwhite skipempty
 syn region csIndexerParameters matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=csTypeIdentifier,csModifier nextgroup=csPropertyBlock,csLambdaOperator skipwhite skipempty
 
-syn match csDeclarator /\%#=1\K\k*\%(<.\{-}>\)\=/ contained contains=csKeywordError,csGenericParameters nextgroup=csAssignmentOperator,csLambdaOperator,csParameters,csPropertyBlock,csDeclaratorMemberAccessOperator,csOperatorKeyword skipwhite skipempty
-syn match csDeclarator /\%#=1@\K\k*\%(<.\{-}>\)\=/ contained contains=csGenericParameters nextgroup=csAssignmentOperator,csLambdaOperator,csParameters,csPropertyBlock,csDeclaratorMemberAccessOperator,csOperatorKeyword skipwhite skipempty
+syn match csDeclarator /\%#=1\K\k*\%(<.\{-}>\)\=/ contained contains=csKeywordError,csGenericParameters nextgroup=csAssignmentOperator,csLambdaOperator,csParameters,csPropertyBlock,csDeclaratorMemberOperator,csOperatorKeyword skipwhite skipempty
+syn match csDeclarator /\%#=1@\K\k*\%(<.\{-}>\)\=/ contained contains=csGenericParameters nextgroup=csAssignmentOperator,csLambdaOperator,csParameters,csPropertyBlock,csDeclaratorMemberOperator,csOperatorKeyword skipwhite skipempty
 syn match csNotDeclarator /\%#=1\<\K\k*\%(<.\{-}>\)\=\ze\s*\./ contained containedin=csDeclarator contains=csGeneric
 syn match csNotDeclarator /\%#=1@\K\k*\%(<.\{-}>\)\=\ze\s*\./ contained containedin=csDeclarator contains=csGeneric
-syn match csDeclaratorMemberAccessOperator /\%#=1\./ contained nextgroup=csDeclarator,csIdentifier,csIndexerThis skipwhite skipempty
+syn match csDeclaratorMemberOperator /\%#=1\./ contained nextgroup=csDeclarator,csIdentifier,csIndexerThis skipwhite skipempty
 syn region csParameters matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csTypeIdentifier,csModifier,csThisModifier,csTypeTuple,csCollectionExpressionOrAttributes nextgroup=csLambdaOperator,csBlock,csMethodTypeConstraint skipwhite skipempty
 syn keyword csThisModifier this contained
 syn region csPropertyBlock matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contained contains=csAccessor,csModifier nextgroup=csAssignmentOperator skipwhite skipempty fold
@@ -178,18 +178,18 @@ syn keyword csAccessor get set init add remove contained nextgroup=csBlock,csLam
 syn match csDeclaratorComma /\%#=1,/ nextgroup=csDeclarator skipwhite skipempty
 
 syn match csMethodTypeInheritanceOperator /\%#=1:/ contained nextgroup=csMethodTypeInheritee,csMethodTypeInheriteeKeyword skipwhite skipempty
-syn match csMethodTypeInheritee /\%#=1\K\k*\%(<.\{-}>\)\=/ contained contains=csKeywordError,csGeneric nextgroup=csMethodTypeInheriteeMemberAccessOperator,csMethodTypeInheriteeComma,csMethodTypeConstraint,csMethodTypeConstraintModifier,csMethodTypeInheriteeArguments,csLambdaOperator skipwhite skipempty
-syn match csMethodTypeInheritee /\%#=1@\K\k*\%(<.\{-}>\)\=/ contained contains=csGeneric nextgroup=csMethodTypeInheriteeMemberAccessOperator,csMethodTypeInheriteeComma,csMethodTypeConstraint,csMethodTypeConstraintModifier,csMethodTypeInheriteeArguments,csLambdaOperator skipwhite skipempty
+syn match csMethodTypeInheritee /\%#=1\K\k*\%(<.\{-}>\)\=/ contained contains=csKeywordError,csGeneric nextgroup=csMethodTypeInheriteeMemberOperator,csMethodTypeInheriteeComma,csMethodTypeConstraint,csMethodTypeConstraintModifier,csMethodTypeInheriteeArguments,csLambdaOperator skipwhite skipempty
+syn match csMethodTypeInheritee /\%#=1@\K\k*\%(<.\{-}>\)\=/ contained contains=csGeneric nextgroup=csMethodTypeInheriteeMemberOperator,csMethodTypeInheriteeComma,csMethodTypeConstraint,csMethodTypeConstraintModifier,csMethodTypeInheriteeArguments,csLambdaOperator skipwhite skipempty
 syn keyword csMethodTypeInheriteeKeyword contained nextgroup=csMethodTypeInheriteeComma,csMethodTypeConstraint,csMethodTypeConstraintModifier,csMethodTypeConstraintLambdaOperator skipwhite skipempty
       \ sbyte short int long byte ushort uint ulong float double decimal nint nuint
       \ char bool object string void dynamic
       \ class struct enum default notnull
-syn match csMethodTypeConstraintModifier /\%#=1?/ contained nextgroup=csMethodTypeInheriteeMemberAccessOperator,csMethodTypeInheriteeComma,csMethodTypeConstraint,csLambdaOperator skipwhite skipempty
+syn match csMethodTypeConstraintModifier /\%#=1?/ contained nextgroup=csMethodTypeInheriteeMemberOperator,csMethodTypeInheriteeComma,csMethodTypeConstraint,csLambdaOperator skipwhite skipempty
 syn keyword csMethodTypeInheriteeKeyword new contained nextgroup=csMethodTypeInheriteeArguments,csMethodTypeInheritee skipwhite skipempty
 syn keyword csMethodTypeInheriteeKeyword managed unmanaged contained nextgroup=csMethodTypeInheriteeComma,csLambdaOperator skipwhite skipempty
 syn region csMethodTypeInheriteeArguments matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained nextgroup=csMethodTypeInheriteeComma,csMethodTypeConstraint,csMethodTypeConstraintLambdaOperator skipwhite skipempty
 syn match csMethodTypeConstraintLambdaOperator /\%#=1=>/ contained nextgroup=csMethodTypeInheriteeKeyword skipwhite skipempty
-syn match csMethodTypeInheriteeMemberAccessOperator /\%#=1\./ contained nextgroup=csMethodTypeInheritee,csMethodTypeInheriteeKeyword skipwhite skipempty
+syn match csMethodTypeInheriteeMemberOperator /\%#=1\./ contained nextgroup=csMethodTypeInheritee,csMethodTypeInheriteeKeyword skipwhite skipempty
 syn match csMethodTypeInheriteeComma /\%#=1,/ contained nextgroup=csMethodTypeInheritee,csMethodTypeInheriteeKeyword skipwhite skipempty
 syn keyword csMethodTypeConstraint where contained nextgroup=csMethodTypeVariable skipwhite skipempty
 syn match csMethodTypeVariable /\%#=1\K\k*/ contained contains=csKeywordError nextgroup=csMethodTypeInheritanceOperator skipwhite skipempty
@@ -205,11 +205,11 @@ syn match csAssignmentOperator /\%#=1=/ contained nextgroup=@csRHS,csRHSTypeIden
 
 syn match csLambdaOperator /\%#=1=>/ contained nextgroup=@csRHS,csBlock skipwhite skipempty
 
-syn match csMemberAccessOperator /\%#=1?\=\./ contained nextgroup=csIdentifier,csConstant skipwhite skipempty
-syn match csMemberAccessOperator /\%#=1->/ contained nextgroup=csIdentifier skipwhite skipempty
-syn match csMemberAccessOperator /\%#=1::/ contained nextgroup=csIdentifier skipwhite skipempty
+syn match csMemberOperator /\%#=1?\=\./ contained nextgroup=csIdentifier,csConstant skipwhite skipempty
+syn match csMemberOperator /\%#=1->/ contained nextgroup=csIdentifier skipwhite skipempty
+syn match csMemberOperator /\%#=1::/ contained nextgroup=csIdentifier skipwhite skipempty
 
-syn match csNullForgivingOperator /\%#=1!/ contained nextgroup=csMemberAccessOperator,csInvocation,csIndex skipwhite skipempty
+syn match csNullForgivingOperator /\%#=1!/ contained nextgroup=csMemberOperator,csInvocation,csIndex skipwhite skipempty
 
 syn match csIncrementOperator /\%#=1++/
 syn match csDecrementOperator /\%#=1--/
@@ -251,7 +251,7 @@ syn match csRHSDeclarator /\%#=1\K\k*/ contained contains=csKeywordError nextgro
 syn match csRHSDeclarator /\%#=1@\K\k*/ contained nextgroup=@csOperators skipwhite skipempty
 syn region csRHSTupleDeclarator matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csRHSDeclarator nextgroup=@csOperators skipwhite skipempty
 
-syn keyword csRHSType contained nextgroup=csMemberAccessOperator,csRHSGroup,csRHSIndex,csRHSDeclarator,csTypeModifier,csOperatorKeyword skipwhite skipempty
+syn keyword csRHSType contained nextgroup=csMemberOperator,csRHSGroup,csRHSIndex,csRHSDeclarator,csTypeModifier,csOperatorKeyword skipwhite skipempty
       \ sbyte short int long byte ushort uint ulong float double decimal nint nuint
       \ char bool object string void dynamic
 
@@ -325,14 +325,14 @@ syn region csPatternBlock matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ con
 
 syn cluster csPatterns contains=csPatternType,csPatternTypeIdentifier,csUnaryOperatorKeyword,@csLiterals,csOperator,csPatternGroup,csPatternProperties,csPatternList
 
-syn keyword csPatternType contained nextgroup=csPatternDeclarator,csPatternTypeMemberAccessOperator,csPatternGroup,csPatternProperties,csOperatorKeyword skipwhite skipempty
+syn keyword csPatternType contained nextgroup=csPatternDeclarator,csPatternTypeMemberOperator,csPatternGroup,csPatternProperties,csOperatorKeyword skipwhite skipempty
     \ sbyte short int long byte ushort uint ulong float double decimal nint nuint
     \ char bool object string void dynamic
 
-syn match csPatternTypeIdentifier /\%#=1\K\k*\%(<.\{-}>\)\=/ contained contains=csGeneric,csKeywordError nextgroup=csPatternDeclarator,csLambdaOperator,csPatternTypeMemberAccessOperator,csPatternGroup,csPatternProperties,csOperatorKeyword skipwhite skipempty
-syn match csPatternTypeIdentifier /\%#=1@\K\k*\%(<.\{-}>\)\=/ contained contains=csGeneric nextgroup=csPatternDeclarator,csLambdaOperator,csPatternTypeMemberAccessOperator,csPatternGroup,csPatternProperties,csOperatorKeyword skipwhite skipempty
+syn match csPatternTypeIdentifier /\%#=1\K\k*\%(<.\{-}>\)\=/ contained contains=csGeneric,csKeywordError nextgroup=csPatternDeclarator,csLambdaOperator,csPatternTypeMemberOperator,csPatternGroup,csPatternProperties,csOperatorKeyword skipwhite skipempty
+syn match csPatternTypeIdentifier /\%#=1@\K\k*\%(<.\{-}>\)\=/ contained contains=csGeneric nextgroup=csPatternDeclarator,csLambdaOperator,csPatternTypeMemberOperator,csPatternGroup,csPatternProperties,csOperatorKeyword skipwhite skipempty
 
-syn match csPatternTypeMemberAccessOperator /\%#=1\./ contained nextgroup=csPatternTypeIdentifier skipwhite skipempty
+syn match csPatternTypeMemberOperator /\%#=1\./ contained nextgroup=csPatternTypeIdentifier skipwhite skipempty
 
 syn match csPatternDeclarator /\%#=1\K\k*/ contained contains=csKeywordError nextgroup=@csOperators skipwhite skipempty
 syn match csPatternDeclarator /\%#=1@\K\k*/ contained nextgroup=@csOperators skipwhite skipempty
@@ -340,10 +340,10 @@ syn match csPatternDeclarator /\%#=1@\K\k*/ contained nextgroup=@csOperators ski
 syn region csPatternGroup matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csPatterns nextgroup=@csOperators,csPatternDeclarator,csPatternProperties skipwhite skipempty
 
 syn region csPatternProperties matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contained contains=csPatternProperty nextgroup=@csOperators,csPatternDeclarator skipwhite skipempty
-syn match csPatternProperty /\%#=1\K\k*/ contained contains=csKeywordError nextgroup=csPatternPropertyColon,csPatternPropertyMemberAccessOperator skipwhite skipempty
-syn match csPatternProperty /\%#=1@\K\k*/ contained nextgroup=csPatternPropertyColon,csPatternPropertyMemberAccessOperator skipwhite skipempty
+syn match csPatternProperty /\%#=1\K\k*/ contained contains=csKeywordError nextgroup=csPatternPropertyColon,csPatternPropertyMemberOperator skipwhite skipempty
+syn match csPatternProperty /\%#=1@\K\k*/ contained nextgroup=csPatternPropertyColon,csPatternPropertyMemberOperator skipwhite skipempty
 syn match csPatternPropertyColon /\%#=1:/ contained nextgroup=@csPatterns skipwhite skipempty
-syn match csPatternPropertyMemberAccessOperator /\%#=1\./ contained nextgroup=csPatternProperty skipwhite skipempty
+syn match csPatternPropertyMemberOperator /\%#=1\./ contained nextgroup=csPatternProperty skipwhite skipempty
 
 syn region csPatternList matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1]/ contained contains=@csPatterns,csPatternSlice,csPatternListVar nextgroup=@csOperators skipwhite skipempty
 syn match csPatternSlice /\%#=1\.\./ contained
@@ -384,10 +384,10 @@ syn region csRegion matchgroup=csDirective start=/\%#=1#region\>.*/ end=/\%#=1#e
 syn match csTypeModifier /\%#=1[*?]/ contained nextgroup=csDeclarator,csTypeModifier skipwhite skipempty
 syn region csTypeModifier matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=@csRHS nextgroup=csDeclarator,csInitializer,csTypeModifier skipwhite skipempty
 
-syn match csTypeIdentifier /\%#=1\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contained contains=csType,csKeywordError,csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,csTypeMemberAccessOperator,csOperatorModifier,csOperator skipwhite skipempty
-syn match csTypeIdentifier /\%#=1@\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contained contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,csTypeMemberAccessOperator,csOperatorModifier,csOperator skipwhite skipempty
-syn match csTypeMemberAccessOperator /\%#=1\./ contained nextgroup=csTypeIdentifier skipwhite skipempty
-syn match csTypeMemberAccessOperator /\%#=1::/ contained nextgroup=csTypeIdentifier skipwhite skipempty
+syn match csTypeIdentifier /\%#=1\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contained contains=csType,csKeywordError,csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,csTypeMemberOperator,csOperatorModifier,csOperator skipwhite skipempty
+syn match csTypeIdentifier /\%#=1@\K\k*\%(<.\{-}>\)\=\%([*?]\.\@!\|\[.\{-}\]\)*/ contained contains=csGeneric,csTypeModifier nextgroup=csDeclarator,csIndexerThis,csTypeMemberOperator,csOperatorModifier,csOperator skipwhite skipempty
+syn match csTypeMemberOperator /\%#=1\./ contained nextgroup=csTypeIdentifier skipwhite skipempty
+syn match csTypeMemberOperator /\%#=1::/ contained nextgroup=csTypeIdentifier skipwhite skipempty
 
 syn match csConstructor /\%#=1\K\k*(\@=/ contained contains=csKeywordError nextgroup=csConstructorParameters
 syn match csConstructor /\%#=1@\K\k*(\@=/ contained nextgroup=csConstructorParameters
@@ -418,13 +418,13 @@ hi def link csRecordModifier csStatement
 hi def link csGenericParameter csDeclarator
 hi def link csTypeInheritanceOperator csOperator
 hi def link csTypeConstraintLambdaOperator csOperator
-hi def link csTypeInheriteeMemberAccessOperator csMemberAccessOperator
+hi def link csTypeInheriteeMemberOperator csMemberOperator
 hi def link csTypeConstraint csStatement
 hi def link csTypeConstraintModifier csTypeModifier
 hi def link csTypeInheriteeKeyword Keyword
 hi def link csMethodTypeInheritanceOperator csTypeInheritanceOperator
 hi def link csMethodTypeConstraintLambdaOperator csTypeConstraintLambdaOperator
-hi def link csMethodTypeInheriteeMemberAccessOperator csTypeInheriteeMemberAccessOperator
+hi def link csMethodTypeInheriteeMemberOperator csTypeInheriteeMemberOperator
 hi def link csMethodTypeConstraint csTypeConstraint
 hi def link csMethodTypeInheriteeKeyword csTypeInheriteeKeyword
 hi def link csMethodTypeConstraintModifier csTypeConstraintModifier
@@ -448,10 +448,10 @@ hi def link csType Type
 hi def link csTypeModifier csOperator
 hi def link csTypeIdentifier csIdentifier
 hi def link csRHSTypeIdentifier csTypeIdentifier
-hi def link csTypeMemberAccessOperator csMemberAccessOperator
+hi def link csTypeMemberOperator csMemberOperator
 hi def link csDeclarator Identifier
 hi def link csNotDeclarator csIdentifier
-hi def link csDeclaratorMemberAccessOperator csMemberAccessOperator
+hi def link csDeclaratorMemberOperator csMemberOperator
 hi def link csConstructor csDeclarator
 hi def link csConstructorInheritanceOperator csOperator
 hi def link csDestructorSign csOperator
@@ -463,7 +463,7 @@ hi def link csIndexerThis csConstant
 hi def link csThisModifier csConstant
 hi def link csOperator Operator
 hi def link csAssignmentOperator csOperator
-hi def link csMemberAccessOperator csOperator
+hi def link csMemberOperator csOperator
 hi def link csNullForgivingOperator csOperator
 hi def link csLambdaOperator csOperator
 hi def link csAccessor csStatement
@@ -498,9 +498,9 @@ hi def link csXMLValue String
 hi def link csXMLValueDelimiter csDelimiter
 hi def link csPatternType csType
 hi def link csPatternTypeIdentifier csTypeIdentifier
-hi def link csPatternTypeMemberAccessOperator csMemberAccessOperator
+hi def link csPatternTypeMemberOperator csMemberOperator
 hi def link csPatternDeclarator csDeclarator
-hi def link csPatternPropertyMemberAccessOperator csMemberAccessOperator
+hi def link csPatternPropertyMemberOperator csMemberOperator
 hi def link csPatternSlice csOperator
 hi def link csDeclaratorComma csDelimiter
 hi def link csTypeInheriteeComma csDeclaratorComma
