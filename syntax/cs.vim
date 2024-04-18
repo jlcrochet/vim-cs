@@ -360,8 +360,8 @@ syn region csIndexSetter matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1]/ con
 syn region csLINQExpression start=/\%#=1\<from\>/ end=/\%#=1[)\]};]\@=/ contained transparent contains=csLINQKeyword,@csRHS
 syn keyword csLINQKeyword from into contained nextgroup=csLINQDeclarator,csLINQDeclaration skipwhite skipempty
 syn match csLINQDeclaration /\%#=1@\=\K\k*\%(\.@\=\K\k*\)*\%(<.\{-}>\)\=\s\+\%(in\>\)\@!@\=\K\k*/ contained contains=csType,csIdentifier
-syn keyword csLINQKeyword let contained nextgroup=csLINQDeclarator skipwhite skipempty
-syn keyword csLINQKeyword in where select orderby group by ascending descending join on equals contained
+syn keyword csLINQKeyword let join contained nextgroup=csLINQDeclarator skipwhite skipempty
+syn keyword csLINQKeyword in where select orderby group by ascending descending on equals contained
 syn match csLINQDeclarator /\%#=1\K\k*/ contained contains=csKeywordError nextgroup=csAssignmentOperator skipwhite skipempty
 syn match csLINQDeclarator /\%#=1@\K\k*/ contained nextgroup=csAssignmentOperator skipwhite skipempty
 
