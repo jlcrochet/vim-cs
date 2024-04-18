@@ -136,7 +136,8 @@ syn match csFunctionPointerModifier /\%#=1\*/ contained nextgroup=csGeneric,csFu
 syn keyword csFunctionPointerManaged managed unmanaged contained nextgroup=csGeneric,csFunctionPointerTypes skipwhite skipempty
 syn region csFunctionPointerTypes matchgroup=csDelimiter start=/\%#=1\[/ end=/\%#=1\]/ contained contains=csTypeIdentifier nextgroup=csGeneric skipwhite skipempty
 
-syn keyword csStatement using nextgroup=csGuardedStatement,csStatement,csIdentifier,csModifier skipwhite skipempty
+syn keyword csStatement using nextgroup=csGuardedStatement,csStatement,csIdentifier,csUsingStatic skipwhite skipempty
+syn keyword csUsingStatic static contained nextgroup=csIdentifier skipwhite skipempty
 syn keyword csStatement fixed nextgroup=csGuardedStatement skipwhite skipempty
 syn region csGuardedStatement matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=TOP
 
@@ -511,6 +512,7 @@ hi def link csPatternListDeclarator csDeclarator
 hi def link csPatternListDeclaratorComma csDeclaratorComma
 hi def link csReadonly csUnaryOperatorKeyword
 hi def link csPatternPropertyColon csOperator
+hi def link csUsingStatic csModifier
 " }}}1
 
 " vim:fdm=marker
