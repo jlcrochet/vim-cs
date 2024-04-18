@@ -1,1 +1,1 @@
-This plugin provides faster, more accurate syntax highlighting for C# and is intended to act as a drop-in replacement for Vim's built-in C# highlighting. It _should_ support all C# features up to C# 11.
+This plugin provides faster, more accurate syntax highlighting for C# and is intended to act as a drop-in replacement for Vim's built-in C# highlighting. It _should_ support all C# features up to C# 12.
