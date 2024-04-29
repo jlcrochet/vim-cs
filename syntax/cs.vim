@@ -45,7 +45,7 @@ syn keyword csStatement class struct nextgroup=csTypeName skipwhite skipempty
 syn match csTypeName /\%#=1\K\k*\%(<.\{-}>\)\=/ contained contains=csKeywordError,csGenericParameters nextgroup=csTypeBlock,csTypeInheritanceOperator,csTypeConstraint,csTypeConstructorParameters skipwhite skipempty
 syn match csTypeName /\%#=1@\K\k*\%(<.\{-}>\)\=/ contained contains=csGenericParameters nextgroup=csTypeBlock,csTypeInheritanceOperator,csTypeConstructorParameters skipwhite skipempty
 syn region csTypeConstructorParameters matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csType,csTypeIdentifier,csModifier,csCollectionExpressionOrAttributes nextgroup=csTypeBlock,csTypeInheritanceOperator,csTypeConstraint skipwhite skipempty
-syn region csGenericParameters matchgroup=csDelimiter start=/\%#=1</ end=/\%#=1>/ contained oneline contains=csGenericParameter,csModifier nextgroup=csTypeBlock skipwhite skipempty
+syn region csGenericParameters matchgroup=csDelimiter start=/\%#=1</ end=/\%#=1>/ contained contains=csGenericParameter,csModifier nextgroup=csTypeBlock skipwhite skipempty
 syn match csGenericParameter /\%#=1\K\k*/ contained contains=csKeywordError
 syn match csGenericParameter /\%#=1@\K\k*/ contained
 syn match csTypeInheritanceOperator /\%#=1:/ contained nextgroup=csTypeInheritee,csTypeInheriteeKeyword skipwhite skipempty
@@ -272,10 +272,10 @@ syn keyword csBoolean true false contained nextgroup=@csOperators skipwhite skip
 syn keyword csNull null contained nextgroup=@csOperators skipwhite skipempty
 syn keyword csRHSConstant this base contained nextgroup=@csOperators,csRHSInvocation,csRHSIndex skipwhite skipempty
 
-syn region csCharacter matchgroup=csCharacterDelimiter start=/\%#=1'/ end=/\%#=1'/ oneline contained contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipempty
+syn region csCharacter matchgroup=csCharacterDelimiter start=/\%#=1'/ end=/\%#=1'/ contained contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipempty
 
-syn region csString matchgroup=csStringStart start=/\%#=1"/    matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained oneline contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipempty
-syn region csString matchgroup=csStringStart start=/\%#=1\$"/  matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained oneline contains=csBraceEscape,csEscapeSequence,csEscapeSequenceError,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
+syn region csString matchgroup=csStringStart start=/\%#=1"/    matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained contains=csEscapeSequence,csEscapeSequenceError nextgroup=@csOperators skipwhite skipempty
+syn region csString matchgroup=csStringStart start=/\%#=1\$"/  matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained contains=csBraceEscape,csEscapeSequence,csEscapeSequenceError,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
 syn region csString matchgroup=csStringStart start=/\%#=1@"/   matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained skip=/\%#=1""/ contains=csQuoteEscape nextgroup=@csOperators skipwhite skipempty
 syn region csString matchgroup=csStringStart start=/\%#=1\$@"/ matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained skip=/\%#=1""/ contains=csQuoteEscape,csBraceEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
 syn region csString matchgroup=csStringStart start=/\%#=1@\$"/ matchgroup=csStringEnd end=/\%#=1"\%(u8\)\=/ contained skip=/\%#=1""/ contains=csQuoteEscape,csBraceEscape,csStringInterpolation,csStringInterpolationError nextgroup=@csOperators skipwhite skipempty
@@ -375,8 +375,8 @@ syn match csXMLTagStart /\%#=1<\/\=/ contained nextgroup=csXMLTagName
 syn match csXMLTagName /\%#=1\a[^[:space:]\>]*/ contained nextgroup=csXMLAttribute,csXMLTagEnd skipwhite
 syn match csXMLAttribute /\%#=1[^>/=[:space:]]\+/ contained nextgroup=csXMLAttributeOperator,csXMLTagEnd skipwhite
 syn match csXMLAttributeOperator /\%#=1=/ contained nextgroup=csXMLValue skipwhite
-syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/ contained oneline nextgroup=csXMLTagEnd skipwhite
-syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1'/ end=/\%#=1'/ contained oneline nextgroup=csXMLTagEnd skipwhite
+syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1"/ end=/\%#=1"/ contained nextgroup=csXMLTagEnd skipwhite
+syn region csXMLValue matchgroup=csXMLValueDelimiter start=/\%#=1'/ end=/\%#=1'/ contained nextgroup=csXMLTagEnd skipwhite
 syn match csXMLTagEnd /\%#=1\/\=>/ contained
 
 syn match csDirective /\%#=1#.*/ containedin=@csBlocks
