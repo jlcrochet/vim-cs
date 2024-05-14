@@ -39,7 +39,7 @@ syn match csDelimiter /\%#=1;/ containedin=@csBlocks
 syn region csBlock matchgroup=csDelimiter start=/\%#=1{/ end=/\%#=1}/ contains=TOP fold
 
 " LHS {{{2
-syn keyword csStatement global alias
+syn keyword csStatement alias nextgroup=csIdentifier skipwhite skipempty
 
 syn keyword csStatement class struct nextgroup=csTypeName skipwhite skipempty
 syn match csTypeName /\%#=1\K\k*\%(<.\{-}>\)\=/ contained contains=csKeywordError,csGenericParameters nextgroup=csTypeBlock,csTypeInheritanceOperator,csTypeConstraint,csTypeConstructorParameters skipwhite skipempty
