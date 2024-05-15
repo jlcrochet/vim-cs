@@ -58,7 +58,7 @@ syn keyword csTypeInheriteeKeyword contained nextgroup=csTypeBlock,csTypeInherit
 syn match csTypeConstraintModifier /\%#=1?/ contained nextgroup=csTypeInheriteeMemberOperator,csTypeInheriteeComma,csTypeConstraint skipwhite skipempty
 syn keyword csTypeInheriteeKeyword new contained nextgroup=csTypeInheriteeArguments,csTypeInheritee skipwhite skipempty
 syn keyword csTypeInheriteeKeyword managed unmanaged contained nextgroup=csTypeBlock,csTypeInheriteeComma skipwhite skipempty
-syn region csTypeInheriteeArguments matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=csTypeVariable nextgroup=csTypeBlock,csTypeInheriteeComma,csTypeConstraint,csTypeConstraintLambdaOperator skipwhite skipempty
+syn region csTypeInheriteeArguments matchgroup=csDelimiter start=/\%#=1(/ end=/\%#=1)/ contained contains=@csRHS nextgroup=csTypeBlock,csTypeInheriteeComma,csTypeConstraint,csTypeConstraintLambdaOperator skipwhite skipempty
 syn match csTypeConstraintLambdaOperator /\%#=1=>/ contained nextgroup=csTypeInheriteeKeyword skipwhite skipempty
 syn match csTypeInheriteeMemberOperator /\%#=1\./ contained nextgroup=csTypeInheritee,csTypeInheriteeKeyword skipwhite skipempty
 syn match csTypeInheriteeComma /\%#=1,/ contained nextgroup=csTypeInheritee,csTypeInheriteeKeyword skipwhite skipempty
