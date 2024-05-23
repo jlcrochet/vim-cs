@@ -306,9 +306,9 @@ syn match csOperator /\%#=1&&\==\=/ contained nextgroup=@csRHS skipwhite skipemp
 syn match csOperator /\%#=1||\==\=/ contained nextgroup=@csRHS skipwhite skipempty
 syn match csOperator /\%#=1?\%(?=\=\)\=/ contained nextgroup=@csRHS skipwhite skipempty
 
-syn match csOperator /\%#=1\./ contained nextgroup=csRHSIdentifier,csRHSConstant skipwhite skipempty
+syn match csOperator /\%#=1\./ contained nextgroup=csRHSTypeIdentifier,csRHSConstant skipwhite skipempty
 syn match csOperator /\%#=1\.\./ contained nextgroup=@csRHS skipwhite skipempty
-syn match csOperator /\%#=1?\./ contained nextgroup=csRHSIdentifier,csRHSConstant skipwhite skipempty
+syn match csOperator /\%#=1?\./ contained nextgroup=csRHSTypeIdentifier,csRHSConstant skipwhite skipempty
 syn match csOperator /\%#=1:/ contained nextgroup=@csRHS,csStatement skipwhite skipempty
 syn match csOperator /\%#=1::/ contained nextgroup=csRHSIdentifier skipwhite skipempty
 
